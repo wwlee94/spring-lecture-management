@@ -104,8 +104,8 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
           <h6 class="dropdown-header">Login Screens:</h6>
-          <a class="dropdown-item" href="../../../resources/static/login.html">Login</a>
-          <a class="dropdown-item" href="../../../resources/static/register.html">Register</a>
+          <a class="dropdown-item" href="/security/login">Login</a>
+          <a class="dropdown-item" href="/security/signUp">Register</a>
           <a class="dropdown-item" href="../../../resources/static/forgot-password.html">Forgot Password</a>
           <div class="dropdown-divider"></div>
           <h6 class="dropdown-header">Other Pages:</h6>
@@ -128,7 +128,7 @@
     <div id="content-wrapper">
 
       <div class="container-fluid">
-
+ㅣ
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
@@ -234,16 +234,16 @@
                     <th>Salary</th>
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
-                  </tr>
-                </tfoot>
+                <%--<tfoot>--%>
+                  <%--<tr>--%>
+                    <%--<th>Name</th>--%>
+                    <%--<th>Position</th>--%>
+                    <%--<th>Office</th>--%>
+                    <%--<th>Age</th>--%>
+                    <%--<th>Start date</th>--%>
+                    <%--<th>Salary</th>--%>
+                  <%--</tr>--%>
+                <%--</tfoot>--%>
                 <tbody>
                   <tr>
                     <td>Tiger Nixon</td>
@@ -305,7 +305,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="../../../resources/static/login.html">Logout</a>
+          <a class="btn btn-primary" href="security/login.jsp">Logout</a>
         </div>
       </div>
     </div>
