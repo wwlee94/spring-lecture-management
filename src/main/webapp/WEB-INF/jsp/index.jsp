@@ -106,20 +106,20 @@
           <h6 class="dropdown-header">Login Screens:</h6>
           <a class="dropdown-item" href="/security/login">Login</a>
           <a class="dropdown-item" href="/security/signUp">Register</a>
-          <a class="dropdown-item" href="../../../resources/static/forgot-password.html">Forgot Password</a>
+          <a class="dropdown-item" href="/forgot-password.html">Forgot Password</a>
           <div class="dropdown-divider"></div>
           <h6 class="dropdown-header">Other Pages:</h6>
-          <a class="dropdown-item" href="../../../resources/static/404.html">404 Page</a>
-          <a class="dropdown-item" href="../../../resources/static/blank.html">Blank Page</a>
+          <a class="dropdown-item" href="/404.html">404 Page</a>
+          <a class="dropdown-item" href="/blank.html">Blank Page</a>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../../../resources/static/charts.html">
+        <a class="nav-link" href="/charts.html">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Charts</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../../../resources/static/tables.html">
+        <a class="nav-link" href="/tables.html">
           <i class="fas fa-fw fa-table"></i>
           <span>Tables</span></a>
       </li>
@@ -128,7 +128,6 @@
     <div id="content-wrapper">
 
       <div class="container-fluid">
-ㅣ
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
