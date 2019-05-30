@@ -92,7 +92,7 @@
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="index.jsp">
+        <a class="nav-link" href="/security/login">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span>
         </a>
@@ -106,6 +106,7 @@
           <h6 class="dropdown-header">Login Screens:</h6>
           <a class="dropdown-item" href="/security/login">Login</a>
           <a class="dropdown-item" href="/security/signUp">Register</a>
+          <a class="dropdown-item" href="/calendar/timetable">TimeTable</a>
           <a class="dropdown-item" href="/forgot-password.html">Forgot Password</a>
           <div class="dropdown-divider"></div>
           <h6 class="dropdown-header">Other Pages:</h6>
@@ -304,30 +305,30 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="security/login.jsp">Logout</a>
+          <a class="btn btn-primary" href="/security/login.jsp">Logout</a>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Page level plugin JavaScript-->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-  <script src="vendor/datatables/jquery.dataTables.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+  <script src="/vendor/chart.js/Chart.min.js"></script>
+  <script src="/vendor/datatables/jquery.dataTables.js"></script>
+  <script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin.min.js"></script>
+  <script src="/js/sb-admin.min.js"></script>
 
   <!-- Demo scripts for this page-->
-  <script src="js/demo/datatables-demo.js"></script>
-  <script src="js/demo/chart-area-demo.js"></script>
+  <script src="/js/demo/datatables-demo.js"></script>
+  <script src="/js/demo/chart-area-demo.js"></script>
 
 </body>
 
