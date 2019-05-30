@@ -25,6 +25,16 @@ public class TimeTable {
     @Column(nullable = false, length=50)
     private LocalDateTime end_date;
 
+    @Transient
+    private String str_start_date;
+
+    @Transient
+    private String str_end_date;
+
+    @Transient
+    private int color;
+
+
     public Long getId() {
         return id;
     }
@@ -71,5 +81,29 @@ public class TimeTable {
 
     public void setEnd_date(LocalDateTime end_date) {
         this.end_date = end_date;
+    }
+
+    public String getStr_start_date() {
+        return str_start_date;
+    }
+
+    public void setStr_start_date(String str_start_date) {
+        this.str_start_date = str_start_date;
+    }
+
+    public String getStr_end_date() {
+        return str_end_date;
+    }
+
+    public void setStr_end_date(String str_end_date) {
+        this.str_end_date = str_end_date;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }
