@@ -1,5 +1,8 @@
 package com.lecture.lecturemanagement.login.security;
 
+import com.lecture.lecturemanagement.login.controller.LoginController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
@@ -15,6 +18,8 @@ import java.io.IOException;
 // SavedRequestAwareAuthenticationSuccessHandler를 상속해서 구현하면 된다
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
+    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
+
     public CustomLoginSuccessHandler(String defaultTargetUrl) {
         setDefaultTargetUrl(defaultTargetUrl);
     }
@@ -23,7 +28,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
 
-        System.out.println("login Success !! ");
+        LOGGER.info("LOGIN SUCCESS :: ");
 
         ((SecurityMember)authentication.getPrincipal()).setIp(getClientIp(request));
 

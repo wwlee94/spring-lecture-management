@@ -1,6 +1,9 @@
 package com.lecture.lecturemanagement.login.security;
 
+import com.lecture.lecturemanagement.login.controller.LoginController;
 import com.lecture.lecturemanagement.member.MemberRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +19,8 @@ import java.util.Optional;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
+
     @Autowired
     MemberRepository memberRepository;
 
@@ -23,8 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        System.out.println("loadUserByUsername");
-        System.out.println(email);
+        LOGGER.info("LOGIN TRY :: "+ email);
 
         SecurityMember securityMember = Optional.ofNullable(memberRepository.findByUemail(email))   //email값을 이용해 불러온 member가 null임을 대비한다.
                                   .filter(m -> m != null)  //member 가 널이 아닐 경우.

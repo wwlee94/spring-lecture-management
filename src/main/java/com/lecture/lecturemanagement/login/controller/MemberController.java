@@ -3,6 +3,8 @@ package com.lecture.lecturemanagement.login.controller;
 import com.lecture.lecturemanagement.member.Member;
 import com.lecture.lecturemanagement.member.MemberRepository;
 import com.lecture.lecturemanagement.member.MemberRole;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import java.util.Arrays;
 @RequestMapping("/member")
 public class MemberController {
 
+    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
+
     @Autowired
     MemberRepository memberRepository;
 
@@ -23,6 +27,8 @@ public class MemberController {
     //2. MemberRole을 BASIC 으로 정의해 Member에 넣어주고 save를 했다.
     @PostMapping("")
     public String create(Member member) {
+
+        LOGGER.info("CALLED /member");
 
         System.out.println(member.getUid());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
