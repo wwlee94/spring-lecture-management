@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 
-    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
+    private Logger LOGGER = LogManager.getLogger(this.getClass());
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,

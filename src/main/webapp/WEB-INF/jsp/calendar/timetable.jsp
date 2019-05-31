@@ -243,54 +243,54 @@
             //스케쥴 초기화
             scheduler.init('scheduler_here', new Date(), "week");
 
-            var jsonarray = [];
-            //db 정보 받아 json형태로 파싱
-            <c:forEach var="table" items="${tablelist}">
-                var json = {};
-                json.subject = ${table.subject};
-                json.professor = ${table.professor};
-                json.location = ${table.location};
-                json.start_date = ${table.start_date};
-                json.end_date = ${table.end_date};
+            <%--var jsonarray = [];--%>
+            <%--//db 정보 받아 json형태로 파싱--%>
+            <%--<c:forEach var="table" items="${tablelist}">--%>
+                <%--var json = {};--%>
+                <%--json.subject = ${table.subject};--%>
+                <%--json.professor = ${table.professor};--%>
+                <%--json.location = ${table.location};--%>
+                <%--json.start_date = ${table.start_date};--%>
+                <%--json.end_date = ${table.end_date};--%>
 
-                jsonarray.push(json);
+                <%--jsonarray.push(json);--%>
 
-                console.log(jsonarray);
-            </c:forEach>
+                <%--console.log(jsonarray);--%>
+            <%--</c:forEach>--%>
 
-            scheduler.parse(jsonarray,"json");
+            <%--scheduler.parse(jsonarray,"json");--%>
 
-            // //json 으로 데이터 넣기
-            // scheduler.parse([
-            //     {
-            //         subject: 'english',
-            //         professor:'신우창',
-            //         location: '북악관 608호',
-            //         start_date: "2019-05-29 09:00",
-            //         end_date: "2019-05-29 12:00"
-            //     },
-            //     {
-            //         subject: 'math',
-            //         professor:'신우창',
-            //         location: '북악관 608호',
-            //         start_date: "2019-05-28 10:00",
-            //         end_date: "2019-05-28 16:00"
-            //     },
-            //     {
-            //         subject: 'science',
-            //         professor:'신우창',
-            //         location: '북악관 608호',
-            //         start_date: "2019-05-27 10:00",
-            //         end_date: "2019-05-27 14:00"
-            //     },
-            //     {
-            //         subject: 'english',
-            //         professor:'신우창',
-            //         location: '북악관 608호',
-            //         start_date: "2019-06-010 16:00",
-            //         end_date: "2019-06-01 17:00"
-            //     }
-            // ], "json");
+            //json 으로 데이터 넣기
+            scheduler.parse([
+                {
+                    subject: 'english',
+                    professor:'신우창',
+                    location: '북악관 608호',
+                    start_date: "2019-05-29 09:00",
+                    end_date: "2019-05-29 12:00"
+                },
+                {
+                    subject: 'math',
+                    professor:'신우창',
+                    location: '북악관 608호',
+                    start_date: "2019-05-28 10:00",
+                    end_date: "2019-05-28 16:00"
+                },
+                {
+                    subject: 'science',
+                    professor:'신우창',
+                    location: '북악관 608호',
+                    start_date: "2019-05-27 10:00",
+                    end_date: "2019-05-27 14:00"
+                },
+                {
+                    subject: 'english',
+                    professor:'신우창',
+                    location: '북악관 608호',
+                    start_date: "2019-06-010 16:00",
+                    end_date: "2019-06-01 17:00"
+                }
+            ], "json");
 
         }
     </script>

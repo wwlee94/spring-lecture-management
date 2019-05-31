@@ -17,7 +17,7 @@ import java.util.Arrays;
 @RequestMapping("/member")
 public class MemberController {
 
-    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
+    private Logger LOGGER = LogManager.getLogger(this.getClass());
 
     @Autowired
     MemberRepository memberRepository;

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/security")
 public class LoginController {
 
-    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
+    private Logger LOGGER = LogManager.getLogger(this.getClass());
 
     @RequestMapping("/signUp")
     public String signUp() {

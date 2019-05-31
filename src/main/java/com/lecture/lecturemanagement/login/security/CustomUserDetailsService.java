@@ -19,7 +19,7 @@ import java.util.Optional;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
+    private Logger LOGGER = LogManager.getLogger(this.getClass());
 
     @Autowired
     MemberRepository memberRepository;
