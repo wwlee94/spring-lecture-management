@@ -21,7 +21,6 @@ public class SecurityMember extends User {
     //생성자의 파라미터로 member를 받아서 Role_ 변환 후 하나의 security user 로 사용 .
     public SecurityMember(Member member) {
         super(member.getUemail(), member.getUpw(), makeGrantedAuthority(member.getRoles()));
-        System.out.println(member.getUpw());
     }
 
     //Role_ 를 권한 앞에 붙여서 값 리턴. 하나의 member 당 여러 권한을 가질 수 있음으로 list 형식으로 반환.

@@ -115,6 +115,11 @@
         </div>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="/report/">
+          <i class="fas fa-fw fa-clipboard"></i>
+          <span>Reports</span></a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/charts.html">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Charts</span></a>

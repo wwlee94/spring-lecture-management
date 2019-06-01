@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>학기 시간표</title>
+    <title>시간표 일정</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -36,17 +36,14 @@
         }
 
         .dhx_cal_event div.dhx_footer,
-        .dhx_cal_event.past_event div.dhx_footer,
-        .dhx_cal_event.event_english div.dhx_footer,
-        .dhx_cal_event.event_math div.dhx_footer,
-        .dhx_cal_event.event_science div.dhx_footer {
+        .dhx_cal_event.past_event div.dhx_footer{
             background-color: transparent !important;
         }
 
         .dhx_cal_event .dhx_body {
             -webkit-transition: opacity 0.1s;
             transition: opacity 0.1s;
-            opacity: 0.7;
+            opacity: 0.9;
         }
 
         .dhx_cal_event .dhx_title {
@@ -60,69 +57,66 @@
             opacity: 1;
         }
 
-        .dhx_cal_event.event_math div,
-        .dhx_cal_event_line.event_math {
-            background-color: #FF5722 !important;
-            border-color: #732d16 !important;
+        .dhx_cal_event.event_1 div {
+            background-color: #ff7473 !important;
+            border-color: #ff7473 !important;
         }
 
-        .dhx_cal_event.dhx_cal_editor.event_math {
-            background-color: #FF5722 !important;
+        .dhx_cal_event.event_2 div {
+            background-color: #A593E0 !important;
+            border-color: #A593E0 !important;
         }
 
-        .dhx_cal_event_clear.event_math {
-            color: #FF5722 !important;
+        .dhx_cal_event.event_3 div {
+            background-color: #ffc952 !important;
+            border-color: #ffc952 !important;
         }
 
-        .dhx_cal_event.event_science div,
-        .dhx_cal_event_line.event_science {
-            background-color: #0FC4A7 !important;
-            border-color: #698490 !important;
+        .dhx_cal_event.event_4 div {
+            background-color: #8CD790 !important;
+            border-color: #8CD790 !important;
         }
 
-        .dhx_cal_event.dhx_cal_editor.event_science {
-            background-color: #0FC4A7 !important;
+
+        .dhx_cal_event.event_5 div {
+            background-color: #47b8e0 !important;
+            border-color: #47b8e0 !important;
         }
 
-        .dhx_cal_event_clear.event_science {
-            color: #0FC4A7 !important;
+        .dhx_cal_event.event_6 div {
+            background-color: #58C9B9 !important;
+            border-color: #58C9B9 !important;
         }
 
-        .dhx_cal_event.event_english div,
-        .dhx_cal_event_line.event_english {
-            background-color: #684f8c !important;
-            border-color: #9575CD !important;
+        .dhx_cal_event.event_7 div {
+            background-color: #F17F42 !important;
+            border-color: #F17F42 !important;
         }
 
-        .dhx_cal_event.dhx_cal_editor.event_english {
-            background-color: #684f8c !important;
-        }
 
-        .dhx_cal_event_clear.event_english {
-            color: #B82594 !important;
-        }
     </style>
     <!-- dhtmlxscheduler script -->
     <script type="text/javascript" charset="utf-8">
         function init() {
             scheduler.config.xml_date = "%Y-%m-%d %H:%i";           //json으로 등록할때 xml 형식
             scheduler.config.time_step = 30;                        //30분 단위
-            // scheduler.config.multi_day = true;                      //일정 중복으로 등록 가능
+            //scheduler.config.multi_day = true;                    //일정 중복 추가
             scheduler.locale.labels.section_subject = "Subject";
             scheduler.config.first_hour = 9;                        //타임 테이블 시작 시간
-            scheduler.config.last_hour = 19;                        //타임 테이블 마지막 시간
+            scheduler.config.last_hour = 20;                        //타임 테이블 마지막 시간
+
+            //?
             scheduler.config.limit_time_select = true;
             scheduler.config.details_on_dblclick = true;
             scheduler.config.details_on_create = true;
-
             scheduler.config.show_loading = true;                   //loading spinner 보여주기
 
-            //클릭 했을 때 이벤트 / 이벤트 -> 일정 추가하는 네모난 박스
+            //event coloring
             scheduler.templates.event_class = function (start, end, event) {
                 var css = "";
 
                 if (event.subject) // if event has subject property then special class should be assigned
-                    css += "event_" + event.subject;
+                    css += "event_" + event.color;
 
                 if (event.id == scheduler.getState().select_id) {
                     css += " selected";
@@ -142,6 +136,7 @@
                     }
                 */
             };
+
             //event_class
             //lightbox에서 선택하려면 이거
             // var subject = [
@@ -160,82 +155,85 @@
 
             //locale 설정 -> 직접
             scheduler.locale = {
-                date:{
-                    month_full:["1월", "2월", "3월", "4월", "5월", "6월",
+                date: {
+                    month_full: ["1월", "2월", "3월", "4월", "5월", "6월",
                         "7월", "8월", "9월", "10월", "11월", "12월"],
-                    month_short:["1월", "2월", "3월", "4월", "5월", "6월",
+                    month_short: ["1월", "2월", "3월", "4월", "5월", "6월",
                         "7월", "8월", "9월", "10월", "11월", "12월"],
-                    day_full:["일요일", "월요일", "화요일", "수요일", "목요일",
+                    day_full: ["일요일", "월요일", "화요일", "수요일", "목요일",
                         "금요일", "토요일"],
-                    day_short:["일", "월", "화", "수", "목", "금", "토"]
+                    day_short: ["일", "월", "화", "수", "목", "금", "토"]
                 },
-                labels:{
-                    dhx_cal_today_button:"오늘",
-                    day_tab:"일",
-                    week_tab:"주간 스케줄",
-                    month_tab:"달",
-                    new_event:"새로운 일정",
-                    icon_save:"저장",
-                    icon_cancel:"취소",
-                    icon_details:"세부사항",
-                    icon_edit:"편집",
-                    icon_delete:"삭제",
-                    confirm_closing:"",// Your changes will be lost, are your sure?
-                    confirm_deleting:"수업 정보를 삭제하시겠습니까?",
+                labels: {
+                    dhx_cal_today_button: "오늘",
+                    day_tab: "일",
+                    week_tab: "주간 스케줄",
+                    month_tab: "달",
+                    new_event: "새로운 일정",
+                    icon_save: "저장",
+                    icon_cancel: "취소",
+                    icon_details: "세부사항",
+                    icon_edit: "편집",
+                    icon_delete: "삭제",
+                    confirm_closing: "",// Your changes will be lost, are your sure?
+                    confirm_deleting: "수업 정보를 삭제하시겠습니까?",
 
-                    section_subject:"수업 과목",
-                    section_professor:"교수 이름",
-                    section_location:'수업 장소',
-                    section_time:"수업 시간",
+                    section_subject: "수업 과목",
+                    section_professor: "교수 이름",
+                    section_location: '수업 장소',
+                    section_time: "수업 시간",
 
-                    full_day:"Full day",
+                    full_day: "Full day",
 
                     /* touch tooltip*/
-                    drag_to_create:"드래그 해서 만드세요 !",
-                    drag_to_move:"드래그 해서 옮기세요 !",
+                    drag_to_create: "드래그 해서 만드세요 !",
+                    drag_to_move: "드래그 해서 옮기세요 !",
 
                     /* dhtmlx message default buttons */
-                    message_ok:"확인",
-                    message_cancel:"취소",
+                    message_ok: "확인",
+                    message_cancel: "취소",
 
                     /* wai aria labels for non-text controls */
-                    next:"다음",
-                    prev:"이전",
-                    year:"년",
-                    month:"월",
-                    day:"일",
-                    hour:"시간",
-                    minute:"분"
+                    next: "다음",
+                    prev: "이전",
+                    year: "년",
+                    month: "월",
+                    day: "일",
+                    hour: "시간",
+                    minute: "분"
                 }
             };
 
             //week header 설정
-            scheduler.templates.event_header = function(start,end,ev){
-                return scheduler.templates.event_date(start)+" ~ "+
+            scheduler.templates.event_header = function (start, end, ev) {
+                return scheduler.templates.event_date(start) + " ~ " +
                     scheduler.templates.event_date(end);
             };
 
             //툴팁 설정
+            dhtmlXTooltip.config.timeout_to_display = 0;
+            dhtmlXTooltip.config.timeout_to_hide = 0;
+
             var format = scheduler.date.date_to_str("%H : %i");
-            scheduler.templates.tooltip_text = function(start,end,event) {
-                return "<b>과목 : </b>"+event.subject +
-                    "<br/><b>교수 : </b>"+event.professor +
-                    "<br/><b>장소 : </b>"+event.location +
-                    "<br/><b>수업 시간 : </b>"+format(start) + " ~ "+ format(end);
+            scheduler.templates.tooltip_text = function (start, end, event) {
+                return "<b>과목 : </b>" + event.subject +
+                    "<br/><b>교수 : </b>" + event.professor +
+                    "<br/><b>장소 : </b>" + event.location +
+                    "<br/><b>수업 시간 : </b>" + format(start) + " ~ " + format(end);
             };
 
             //event text + location + professor
-            scheduler.attachEvent("onTemplatesReady", function(){
-                scheduler.templates.event_text=function(start,end,event){
+            scheduler.attachEvent("onTemplatesReady", function () {
+                scheduler.templates.event_text = function (start, end, event) {
                     return '<b>과목 : </b>' + event.subject +
-                           '<br/><b>교수 : </b>' + event.professor+
-                           '<br/><b>장소 : </b>' + event.location;
+                        '<br/><b>교수 : </b>' + event.professor +
+                        '<br/><b>장소 : </b>' + event.location;
                 }
             });
 
 
             //토요일 , 일요일 숨기기
-            scheduler.ignore_week = function(date){
+            scheduler.ignore_week = function (date) {
                 if (date.getDay() == 6 || date.getDay() == 0) //토요일 , 일요일 숨김
                     return true;
             };
@@ -243,54 +241,59 @@
             //스케쥴 초기화
             scheduler.init('scheduler_here', new Date(), "week");
 
-            <%--var jsonarray = [];--%>
-            <%--//db 정보 받아 json형태로 파싱--%>
-            <%--<c:forEach var="table" items="${tablelist}">--%>
-                <%--var json = {};--%>
-                <%--json.subject = ${table.subject};--%>
-                <%--json.professor = ${table.professor};--%>
-                <%--json.location = ${table.location};--%>
-                <%--json.start_date = ${table.start_date};--%>
-                <%--json.end_date = ${table.end_date};--%>
 
-                <%--jsonarray.push(json);--%>
+            //db 정보 받아 json형태로 파싱
+            var jsonarray = [];
 
-                <%--console.log(jsonarray);--%>
-            <%--</c:forEach>--%>
+            <c:forEach var="table" items="${tablelist}">
+            var json = {};
+            json.subject = "${table.subject}";
+            json.professor = "${table.professor}";
+            json.location = "${table.location}";
+            json.start_date = "${table.str_start_date}";
+            json.end_date = "${table.str_end_date}";
+            json.color = "${table.color}";
 
-            <%--scheduler.parse(jsonarray,"json");--%>
+
+            jsonarray.push(json);
+            </c:forEach>
+
+            //jsonarray 출력
+            console.log(JSON.stringify(jsonarray));
+
+            scheduler.parse(jsonarray, "json");
 
             //json 으로 데이터 넣기
-            scheduler.parse([
-                {
-                    subject: 'english',
-                    professor:'신우창',
-                    location: '북악관 608호',
-                    start_date: "2019-05-29 09:00",
-                    end_date: "2019-05-29 12:00"
-                },
-                {
-                    subject: 'math',
-                    professor:'신우창',
-                    location: '북악관 608호',
-                    start_date: "2019-05-28 10:00",
-                    end_date: "2019-05-28 16:00"
-                },
-                {
-                    subject: 'science',
-                    professor:'신우창',
-                    location: '북악관 608호',
-                    start_date: "2019-05-27 10:00",
-                    end_date: "2019-05-27 14:00"
-                },
-                {
-                    subject: 'english',
-                    professor:'신우창',
-                    location: '북악관 608호',
-                    start_date: "2019-06-010 16:00",
-                    end_date: "2019-06-01 17:00"
-                }
-            ], "json");
+            // scheduler.parse([
+            //     {
+            //         subject: 'english',
+            //         professor:'신우창',
+            //         location: '북악관 608호',
+            //         start_date: "2019-05-29 09:00",
+            //         end_date: "2019-05-29 12:00"
+            //     },
+            //     {
+            //         subject: 'math',
+            //         professor:'신우창',
+            //         location: '북악관 608호',
+            //         start_date: "2019-05-28 10:00",
+            //         end_date: "2019-05-28 16:00"
+            //     },
+            //     {
+            //         subject: 'science',
+            //         professor:'신우창',
+            //         location: '북악관 608호',
+            //         start_date: "2019-05-27 10:00",
+            //         end_date: "2019-05-27 14:00"
+            //     },
+            //     {
+            //         subject: 'appointment',
+            //         professor:'신우창',
+            //         location: '북악관 608호',
+            //         start_date: "2019-05-31 16:00",
+            //         end_date: "2019-05-31 20:00"
+            //     }
+            // ], "json");
 
         }
     </script>
@@ -405,25 +408,25 @@
 
     <div id="content-wrapper">
 
-            <!-- scheduler -->
-            <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
-                <div class="dhx_cal_navline">
-                    <!-- 다음주 이전 주 버튼 -->
-                    <%--<div class="dhx_cal_prev_button">&nbsp;</div>--%>
-                    <%--<div class="dhx_cal_next_button">&nbsp;</div>--%>
-                    <div class="dhx_cal_today_button"></div>
-                    <div class="dhx_cal_date"></div>
-                    <!-- delete day,month-->
-                    <%--<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>--%>
-                    <%--<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>--%>
+        <!-- scheduler -->
+        <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+            <div class="dhx_cal_navline">
+                <!-- 다음주 이전 주 버튼 -->
+                <div class="dhx_cal_prev_button">&nbsp;</div>
+                <div class="dhx_cal_next_button">&nbsp;</div>
+                <div class="dhx_cal_today_button"></div>
+                <div class="dhx_cal_date"></div>
+                <!-- delete day,month-->
+                <%--<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>--%>
+                <%--<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>--%>
 
-                    <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
-                </div>
-                <div class="dhx_cal_header">
-                </div>
-                <div class="dhx_cal_data">
-                </div>
+                <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
             </div>
+            <div class="dhx_cal_header">
+            </div>
+            <div class="dhx_cal_data">
+            </div>
+        </div>
 
         <!-- Sticky Footer -->
         <footer class="sticky-footer">

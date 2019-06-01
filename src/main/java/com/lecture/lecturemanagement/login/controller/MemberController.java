@@ -30,11 +30,8 @@ public class MemberController {
 
         LOGGER.info("CALLED /member");
 
-        System.out.println(member.getUid());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        System.out.println(member.getUpw());
         member.setUpw(passwordEncoder.encode(member.getUpw()));
-        System.out.println(member.getUpw());
 
         MemberRole role = new MemberRole();
         role.setRoleName("BASIC");
