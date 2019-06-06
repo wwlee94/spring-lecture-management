@@ -103,13 +103,13 @@ DataTable.ext.renderer.pageButton.bootstrap = function ( settings, host, idx, bu
 						break;
 
 					case 'previous':
-						btnDisplay = lang.sPrevious;
+						btnDisplay = "이전";
 						btnClass = button + (page > 0 ?
 							'' : ' disabled');
 						break;
 
 					case 'next':
-						btnDisplay = lang.sNext;
+						btnDisplay = "다음";
 						btnClass = button + (page < pages-1 ?
 							'' : ' disabled');
 						break;

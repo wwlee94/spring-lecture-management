@@ -1,14 +1,21 @@
 package com.lecture.lecturemanagement.calendar;
 
+import com.lecture.lecturemanagement.login.security.SecurityMember;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.sql.Time;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -18,28 +25,78 @@ public class calendarController {
     @Autowired
     TimeTableRepository timeTableRepository;
 
+    //사용자 정보 가져오기 위한 변수
+    private Object object;
+    private String uid;
+
     @RequestMapping(value = "/timetable" , method = RequestMethod.GET)
     public ModelAndView showTimeTable(){
 
-        List<TimeTable> tableList = timeTableRepository.findAll();
+        object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (object.getClass().getName().equals("com.lecture.lecturemanagement.login.security.SecurityMember")) {
+            uid = ((SecurityMember) object).getUsername();
+        }
+        else uid = "woowon";
+
+        List<TimeTable> tableList = timeTableRepository.findAllByUid(uid);
 
         int color = 1;
 
+        //localdatetime to string 포맷으로 변경
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String str_start_date = "";
+        String str_end_date = "";
+
         for(int i=0;i<tableList.size();i++){
             TimeTable timeTable = tableList.get(i);
 
+            //오늘 날짜를 기준으로 월요일 가져옴
+            Date mon = getMonday(new Date());
 
-            //localdatetime to string 포맷으로 변경
-            String str_start_date = timeTable.getStart_date().format(formatter);
-            String str_end_date = timeTable.getEnd_date().format(formatter);
+            LocalDateTime monday = convertToLocalDateTimeViaInstant(mon);
+            //LocalDateTime friday = monday.plusDays(4);
 
-            if(i==0){
-                System.out.println(timeTable.getStart_date()+"end: "+timeTable.getEnd_date());
-                System.out.println(str_start_date+"end: "+str_end_date);
+            LocalDateTime start_date = timeTable.getStart_date();
+            LocalDateTime end_date = timeTable.getEnd_date();
+
+            int count = 0;
+            //현재 보여주는 월화수목금 이전이나 이후 날짜면 수정!
+            // || start_date.isAfter(friday)
+            if(start_date.isBefore(monday)){
+                if(start_date.getMonth() == monday.getMonth()){
+                    if(start_date.getDayOfMonth() == monday.getDayOfMonth()){
+                        System.out.println("같은날 ^^");
+                        System.out.println("start_date " + start_date);
+                        System.out.println("monday "+ monday);
+                    }
+                }
+                else {
+                    //저장된 날짜와 상관없이 요일확인후 현재일 기준 월~금 날짜로 조정
+                    if(start_date.getDayOfWeek()== DayOfWeek.MONDAY) count = 0;
+                    else if(start_date.getDayOfWeek()== DayOfWeek.TUESDAY) count = 1;
+                    else if(start_date.getDayOfWeek()== DayOfWeek.WEDNESDAY) count = 2;
+                    else if(start_date.getDayOfWeek()== DayOfWeek.THURSDAY) count = 3;
+                    else if(start_date.getDayOfWeek()== DayOfWeek.FRIDAY) count = 4;
+
+                    //년,월,일 맞춰준것
+                    LocalDate localDate = LocalDate.of(monday.getYear(),monday.getMonthValue(),monday.getDayOfMonth()+count);
+                    //시간,분,초 더해준것
+                    LocalDateTime start_DateTime = localDate.atTime(start_date.getHour(),start_date.getMinute(),start_date.getSecond());
+                    LocalDateTime end_DateTime = localDate.atTime(end_date.getHour(),end_date.getMinute(),end_date.getSecond());
+
+                    //localdatetime to string 포맷으로 변경
+                    str_start_date = start_DateTime.format(formatter);
+                    str_end_date = end_DateTime.format(formatter);
+                }
+            }
+            else{
+                //localdatetime to string 포맷으로 변경
+                str_start_date = timeTable.getStart_date().format(formatter);
+                str_end_date = timeTable.getEnd_date().format(formatter);
             }
 
-            //값 대입
+            //날짜 값 대입
             timeTable.setStr_start_date(str_start_date);
             timeTable.setStr_end_date(str_end_date);
 
@@ -48,6 +105,7 @@ public class calendarController {
             color++;
             if(color==8) color = 1;
         }
+
         //ModelAndView -> 데이터와 뷰를 동시에 설정이 가능
         ModelAndView mv = new ModelAndView();
         mv.setViewName("calendar/timetable");
@@ -56,4 +114,98 @@ public class calendarController {
         return mv;
     }
 
+    //시간표 추가
+    //ResponseBody 안쓰면 요청은 잘 처리되는데 크롬에서 404에러 뜸
+    @ResponseBody
+    @RequestMapping(value = "/timetable" , method = RequestMethod.POST)
+    public String addTimeTable(@RequestParam("subject") String subject,
+                               @RequestParam("professor") String professor,
+                               @RequestParam("location") String location,
+                               @RequestParam("start_date") String start_date,
+                               @RequestParam("end_date") String end_date){
+
+        System.out.println("TimeTable ADD !");
+
+        object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (object.getClass().getName().equals("com.lecture.lecturemanagement.login.security.SecurityMember")) {
+            uid = ((SecurityMember) object).getUsername();
+        }
+        else uid = "woowon";
+
+        //값 대입후 세팅
+        TimeTable timeTable = new TimeTable();
+        //아이디
+        timeTable.setUid(uid);
+        //기본 정보들 초기화
+        timeTable.setUpdateTimeTable(0,subject,professor,location,start_date,end_date);
+
+        //저장
+        timeTableRepository.save(timeTable);
+
+        return "TimeTable Add OK";
+    }
+
+    //시간표 수정
+    @ResponseBody
+    @RequestMapping(value = "/timetable" , method = RequestMethod.PUT)
+    public String updateTimeTable(@RequestParam("id") Long id,
+                                  @RequestParam("subject") String subject,
+                                  @RequestParam("professor") String professor,
+                                  @RequestParam("location") String location,
+                                  @RequestParam("start_date") String start_date,
+                                  @RequestParam("end_date") String end_date){
+
+        System.out.println("TimeTable Update !");
+
+        object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (object.getClass().getName().equals("com.springboot.web.login.security.SecurityMember")) {
+            uid = ((SecurityMember) object).getUsername();
+        }
+        else{
+            uid = "woowon";
+        }
+
+        //값 대입후 세팅
+        TimeTable timeTable = new TimeTable();
+        //아이디
+        timeTable.setUid(uid);
+        //기본 정보들 초기화
+        timeTable.setUpdateTimeTable(id,subject,professor,location,start_date,end_date);
+
+        //수정
+        timeTableRepository.save(timeTable);
+
+        return "TimeTable Update OK";
+    }
+
+    //시간표 삭제
+    @ResponseBody
+    @RequestMapping(value = "/timetable" , method = RequestMethod.DELETE)
+    public String deleteTimeTable(@RequestParam("id") Long id){
+
+        System.out.println("TimeTable DELETE !");
+
+        //수정
+        timeTableRepository.deleteTimeTableById(id);
+
+        return "TimeTable Delete OK";
+    }
+
+    //현재 날짜 기준으로 월요일 구하기
+    public Date getMonday(Date now){
+        int day = now.getDay() % 7;
+        if (day != 1){
+            now.setHours(-24*(day-1));
+        }
+        return now;
+    }
+
+    //Date to LocalDateTime convertor
+    public LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+    }
 }

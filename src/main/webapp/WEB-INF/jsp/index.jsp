@@ -28,7 +28,7 @@
 
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="index.jsp">Start Bootstrap</a>
+    <a class="navbar-brand mr-1" href="/">Start Bootstrap</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -92,7 +92,7 @@
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="/security/login">
+        <a class="nav-link" href="/">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span>
         </a>
@@ -106,7 +106,6 @@
           <h6 class="dropdown-header">Login Screens:</h6>
           <a class="dropdown-item" href="/security/login">Login</a>
           <a class="dropdown-item" href="/security/signUp">Register</a>
-          <a class="dropdown-item" href="/calendar/timetable">TimeTable</a>
           <a class="dropdown-item" href="/forgot-password.html">Forgot Password</a>
           <div class="dropdown-divider"></div>
           <h6 class="dropdown-header">Other Pages:</h6>
@@ -115,14 +114,14 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
+        <a class="nav-link" href="/lecture">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Lectures</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
+        <a class="nav-link" href="/calendar/timetable">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>TimeTable</span></a>
       </li>
     </ul>
 
@@ -305,7 +304,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="/security/login.jsp">Logout</a>
+          <a class="btn btn-primary" href="/">Logout</a>
         </div>
       </div>
     </div>
