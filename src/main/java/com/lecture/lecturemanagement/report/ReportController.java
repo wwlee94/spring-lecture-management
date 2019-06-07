@@ -7,12 +7,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +45,7 @@ public class ReportController {
         List<Report> myReports = member.getReports();
         List<Report> otherReports = reportRepository.findAll();
 
+        model.addAttribute("username",username);
         model.addAttribute("myReportList", myReports);
         model.addAttribute("otherReportList", otherReports);
 
@@ -72,6 +73,17 @@ public class ReportController {
         LOGGER.info("CALLED :: /report/" + roomNo);
 
         return "report/report";
+    }
+
+    @PostMapping(value = "/create")
+    public void createRoom(Report data){
+        LOGGER.info("CALLED :: /create/" );
+
+        List<Member> members = new ArrayList<>();
+        members.add(memberRepository.findByUemail(data.getManager()));
+
+        data.setMembers(members);
+        reportRepository.save(data);
     }
 
 }

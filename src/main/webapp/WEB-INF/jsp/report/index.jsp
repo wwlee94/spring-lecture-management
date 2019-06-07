@@ -159,32 +159,28 @@
                             <button type="button" class="close" data-dismiss="modal">×</button>
                         </div>
                         <div class="modal-body">
-
-
-                            <form class="form" role="form" autocomplete="off">
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label form-control-label">제목</label>
-                                    <div class="col-md-9">
-                                        <input class="form-control" type="text" value=""/>
-                                    </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label form-control-label">제목</label>
+                                <div class="col-md-9">
+                                    <input id = "name" class="form-control" type="text" value=""/>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">비밀번호</label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="password" value=""/>
-                                    </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">비밀번호</label>
+                                <div class="col-lg-9">
+                                    <input id = "password" class="form-control" type="password" value=""/>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">방 설명</label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="text" value=""/>
-                                    </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">방 설명</label>
+                                <div class="col-lg-9">
+                                    <input id = "info" class="form-control" type="text" value=""/>
+                                    <input id = "manager" class="form-control" type="hidden" value="${username}"/>
                                 </div>
-                            </form>
-
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Create</button>
+                            <button id = "modalCreate" type="button" class="btn btn-success">Create</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -338,6 +334,9 @@
 <!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<%--modal--%>
+<script src="/js/modal.js" type="text/javascript" charset="utf-8"></script>
 
 <!-- Core plugin JavaScript-->
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
