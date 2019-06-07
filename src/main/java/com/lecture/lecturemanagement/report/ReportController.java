@@ -45,7 +45,7 @@ public class ReportController {
         List<Report> myReports = member.getReports();
         List<Report> otherReports = reportRepository.findAll();
 
-        model.addAttribute("username",username);
+        model.addAttribute("username", username);
         model.addAttribute("myReportList", myReports);
         model.addAttribute("otherReportList", otherReports);
 
@@ -53,22 +53,22 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/room/{roomNo}")
-    public String roomDetailView(@PathVariable String roomNo,Model model) {
+    public String roomDetailView(@PathVariable String roomNo, Model model) {
 
         LOGGER.info("CALLED :: /room/" + roomNo);
 
         Optional<Report> report = reportRepository.findById((long) Integer.parseInt(roomNo));
         List<Member> members = report.get().getMembers();
 
-        model.addAttribute("roomNo",roomNo);
-        model.addAttribute("members",members);
-        model.addAttribute("report",report.get());
+        model.addAttribute("roomNo", roomNo);
+        model.addAttribute("members", members);
+        model.addAttribute("report", report.get());
 
         return "report/room";
     }
 
     @RequestMapping(value = "/report/{roomNo}")
-    public String reportView(@PathVariable String roomNo,Model model) {
+    public String reportView(@PathVariable String roomNo) {
 
         LOGGER.info("CALLED :: /report/" + roomNo);
 
@@ -76,8 +76,9 @@ public class ReportController {
     }
 
     @PostMapping(value = "/create")
-    public void createRoom(Report data){
-        LOGGER.info("CALLED :: /create/" );
+    public void createRoom(Report data) {
+
+        LOGGER.info("CALLED :: /create/");
 
         List<Member> members = new ArrayList<>();
         members.add(memberRepository.findByUemail(data.getManager()));
@@ -85,5 +86,45 @@ public class ReportController {
         data.setMembers(members);
         reportRepository.save(data);
     }
+
+
+    //방 나가기
+    @PostMapping(value = "/delete/{roomNo}")
+    public void deleteRoom(@PathVariable Long roomNo, Principal principal) {
+
+        LOGGER.info("CALLED :: /delete/" + roomNo); //log
+
+        String username = principal.getName();
+        Optional<Report> reportOptional = reportRepository.findById(roomNo); // 방번호로 DB탐색
+
+        Report report = reportOptional.get(); // 객체로 생성
+
+        int size = report.getMembers().size();
+
+        if (size == 1) { //마지막 남은 사람이라면
+            LOGGER.info("CALLED :: /delete/" + roomNo + " 번방 삭제");
+            reportRepository.delete(report);
+        } else if (report.getManager().equals(username)) {
+            LOGGER.info("CALLED :: /delete/" + roomNo + " 방장 넘긴후 방 나가기");
+            report.getMembers().forEach((item) -> {
+                if (item.getUemail().equals(username)) {
+                    report.getMembers().remove(item);
+                }
+            });
+            report.setManager(report.getMembers().get(0).getUemail());
+
+            reportRepository.save(report);
+        } else {
+            LOGGER.info("CALLED :: /delete/" + roomNo + " 방 나가기");
+            report.getMembers().forEach((item) -> {
+                if (item.getUemail().equals(username)) {
+                    report.getMembers().remove(item);
+                }
+            });
+            reportRepository.save(report);
+        }
+    }
+
+
 
 }

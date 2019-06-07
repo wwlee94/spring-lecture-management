@@ -25,4 +25,24 @@ $(document).ready(function () {
             }
         })
     });
+
+    $("#outRoombtn").click(function () {
+        url = "/report/delete/"+$("#roomNo").val();
+
+        // var data = {
+        //     "name": $("#name").val(),
+        //     "password": $("#password").val(),
+        //     "manager" : $("#manager").val(),
+        //     "info": $("#info").val()
+        // };
+
+        $.ajax({
+            url: url,
+            type: "post",
+            // data: data,
+            complete: function () {
+                location.href = "/report"
+            }
+        })
+    });
 });

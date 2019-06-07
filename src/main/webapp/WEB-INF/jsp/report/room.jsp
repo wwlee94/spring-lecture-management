@@ -156,6 +156,31 @@
                     <a class="nav-link" href="/report/chat/${roomNo}">채팅</a>
                 </li>
             </ul>
+
+            <!-- Modal -->
+            <div class="modal fade" id="outRoom" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Go Out Room</h4>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                        <div align="center" class="modal-body text-center">
+                            <div class="text-center" align="center">
+                                방을 정말로 나가시겠습니까 ?
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input id = "roomNo" class="form-control" type="hidden" value="${roomNo}"/>
+                            <button id="outRoombtn" type="button" class="btn btn-danger">방 나가기 </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <br>
             <div class="container">
                 <h2>방 소개</h2>
@@ -204,6 +229,8 @@
                     </div>
                 </div>
 
+                <a class="btn btn-danger" data-toggle="modal" href="#outRoom">방 나가기</a>
+
             </div>
         </div>
 
@@ -250,6 +277,9 @@
 <!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<%--modal--%>
+<script src="/js/modal.js" type="text/javascript" charset="utf-8"></script>
 
 <!-- Core plugin JavaScript-->
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>

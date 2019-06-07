@@ -28,7 +28,7 @@ public class Report {
     @Column(length=50)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.PERSIST,CascadeType.MERGE})
     private List<Member> members;
 
 }
