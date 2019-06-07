@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="modal.jsp"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -148,45 +149,6 @@
                 <li class="breadcrumb-item active">My Report List</li>
             </ol>
 
-            <!-- Modal -->
-            <div class="modal fade" id="addRoom" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Create Report</h4>
-                            <button type="button" class="close" data-dismiss="modal">×</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label form-control-label">제목</label>
-                                <div class="col-md-9">
-                                    <input id = "name" class="form-control" type="text" value=""/>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">비밀번호</label>
-                                <div class="col-lg-9">
-                                    <input id = "password" class="form-control" type="password" value=""/>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">방 설명</label>
-                                <div class="col-lg-9">
-                                    <input id = "info" class="form-control" type="text" value=""/>
-                                    <input id = "manager" class="form-control" type="hidden" value="${username}"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button id = "modalCreate" type="button" class="btn btn-success">Create</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
 
             <!-- Icon Cards-->
             <div class="row">
@@ -275,7 +237,7 @@
                                     <div class="mr-5">제목 : ${report.name}</div>
                                     <div class="mr-5">방장 : ${report.manager}</div>
                                 </div>
-                                <a class="card-footer text-white clearfix small z-1" href="#">
+                                <a onclick="passwordModal('${report.name}','${report.id}')" class="card-footer text-white clearfix small z-1" data-toggle="modal">
                                     <span class="float-left">Attend this Room</span>
                                     <span class="float-right">
                                 <i class="fas fa-lock"></i>
@@ -330,6 +292,19 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function passwordModal(title,roomId){
+        //show 호출시 넘겨준 값을 이용하여 ajax 등을 통해 modal 을 띄울때 동적으로 바뀌어야 하는 값을 얻어온다.
+
+        //얻어온 값을 이용하여, modal 에서 동적으로 바뀌어야 하는 값을 바꾸어 준다..
+        $("#title").html(title);
+        $("#roomId").val(roomId);
+
+        //modal을 띄워준다.
+        $("#inRoom").modal('show');
+    }
+</script>
 
 <!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>

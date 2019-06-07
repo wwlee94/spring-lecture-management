@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="modal.jsp" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -156,30 +157,6 @@
                     <a class="nav-link" href="/report/chat/${roomNo}">채팅</a>
                 </li>
             </ul>
-
-            <!-- Modal -->
-            <div class="modal fade" id="outRoom" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Go Out Room</h4>
-                            <button type="button" class="close" data-dismiss="modal">×</button>
-                        </div>
-                        <div align="center" class="modal-body text-center">
-                            <div class="text-center" align="center">
-                                방을 정말로 나가시겠습니까 ?
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input id = "roomNo" class="form-control" type="hidden" value="${roomNo}"/>
-                            <button id="outRoombtn" type="button" class="btn btn-danger">방 나가기 </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
 
             <br>
             <div class="container">

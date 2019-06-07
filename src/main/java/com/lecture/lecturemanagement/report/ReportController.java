@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/report")
@@ -98,33 +96,64 @@ public class ReportController {
         Optional<Report> reportOptional = reportRepository.findById(roomNo); // 방번호로 DB탐색
 
         Report report = reportOptional.get(); // 객체로 생성
-
-        int size = report.getMembers().size();
+        List<Member> members = report.getMembers();
+        int size = members.size();
 
         if (size == 1) { //마지막 남은 사람이라면
             LOGGER.info("CALLED :: /delete/" + roomNo + " 번방 삭제");
             reportRepository.delete(report);
         } else if (report.getManager().equals(username)) {
             LOGGER.info("CALLED :: /delete/" + roomNo + " 방장 넘긴후 방 나가기");
-            report.getMembers().forEach((item) -> {
+            members.forEach((item) -> {
                 if (item.getUemail().equals(username)) {
-                    report.getMembers().remove(item);
+                    members.remove(item);
                 }
             });
-            report.setManager(report.getMembers().get(0).getUemail());
+            report.setManager(members.get(0).getUemail());
 
             reportRepository.save(report);
         } else {
             LOGGER.info("CALLED :: /delete/" + roomNo + " 방 나가기");
-            report.getMembers().forEach((item) -> {
-                if (item.getUemail().equals(username)) {
-                    report.getMembers().remove(item);
+            for (Iterator<Member> iterator = members.iterator(); iterator.hasNext(); ) {
+                Member value = iterator.next();
+                if (value.getUemail().equals(username) ) {
+                    iterator.remove();
                 }
-            });
+            }
             reportRepository.save(report);
         }
     }
 
+    @PostMapping(value = "/attend/{roomNo}")
+    @ResponseBody
+    public String attendRoom(@PathVariable Long roomNo, @RequestBody Map<String, Object> data, Principal principal) {
 
+        String result = null;
+
+        LOGGER.info("CALLED :: /attend/" + roomNo);
+
+        Optional<Report> reportOptional = reportRepository.findById(roomNo);
+        Report report = reportOptional.get();
+
+        String username = principal.getName();
+        Member member = memberRepository.findByUemail(username);
+
+        if (report.getPassword().equals(data.get("inputPassword"))) {
+            LOGGER.info("CALLED :: /attend/" + "비밀번호가 같습니다.");
+            List<Member> members = report.getMembers();
+            members.add(member);
+
+            reportRepository.save(report);
+
+            result = "" + roomNo;
+        } else {
+            LOGGER.info("CALLED :: /attend/" + "비밀번호가 다릅니다.");
+
+
+            result = "fail";
+        }
+
+        return result;
+    }
 
 }
