@@ -58,14 +58,22 @@ public class BoardController {
 
     //게시물 상세보기
     @GetMapping(value = "/report/{roomNo}/{bno}")
-    public String reportAdd(@PathVariable String roomNo, @PathVariable Long bno, Model model) {
+    public String reportAdd(@PathVariable String roomNo, @PathVariable Long bno, Model model,Principal principal) {
 
         LOGGER.info("CALLED :: /report/" + roomNo + "/" + bno);
+
+        String username = principal.getName();
 
         Optional<Board> boardOptional = boardRepository.findById(bno);
         Board board = boardOptional.get();
         board.setViesNum(board.getViesNum()+1);
         boardRepository.save(board);
+
+        if(board.getUserName().equals(username)){
+            model.addAttribute("isMyBoard",true);
+        }else{
+            model.addAttribute("isMyBoard",false);
+        }
 
         model.addAttribute("board", board);
 
@@ -80,5 +88,23 @@ public class BoardController {
 
         Optional<Board> boardOptional = boardRepository.findById(bno);
         boardRepository.delete(boardOptional.get());
+    }
+
+    //게시물 삭제하기
+    @PutMapping(value = "/report/{bno}")
+    public void modifiedBoard(@RequestBody Map<String, Object> data,@PathVariable Long bno) {
+
+        LOGGER.info("CALLED :: /report/modifiedBoard" + bno);
+
+        System.out.println(data.get("title"));
+
+
+        Optional<Board> boardOptional = boardRepository.findById(Long.parseLong(data.get("bno").toString()));
+        Board board = boardOptional.get();
+
+        board.setTitle(data.get("title").toString());
+        board.setContents(data.get("contents").toString());
+
+        boardRepository.save(board);
     }
 }

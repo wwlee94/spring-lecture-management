@@ -184,12 +184,13 @@
                             <td colspan="3">${board.contents}</td>
                         </tr>
                     </table>
-                    <button type="button" class="btn btn-info" onclick="location.href='/report/report/${roomNo}'">목록으로</button>
-
-                    <button type="button" class="btn btn-success">수정하기</button>
-                    <input type="hidden" id="roomIdfromdeleteBoard" value="${roomNo}"/>
-                    <button type="button" class="btn btn-danger" onclick="deleteBoard('${board.bno}')">삭제하기</button>
-
+                    <button type="button" class="btn btn-info" onclick="location.href='/report/report/${roomNo}'">목록으로
+                    </button>
+                    <c:if test="${isMyBoard eq true}">
+                        <input type="hidden" id="roomNoFromDetailReport" value="${roomNo}"/>
+                        <button type="button" class="btn btn-success" onclick="modifiedBoard('${board.bno}','${board.title}','${board.contents}')">수정하기</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteBoard('${board.bno}')">삭제하기</button>
+                    </c:if>
 
                 </div>
             </div>
@@ -235,15 +236,21 @@
     </div>
 
     <script type="text/javascript">
-        function deleteBoard(bno){
-            //show 호출시 넘겨준 값을 이용하여 ajax 등을 통해 modal 을 띄울때 동적으로 바뀌어야 하는 값을 얻어온다.
+        function deleteBoard(bno) {
 
-            //얻어온 값을 이용하여, modal 에서 동적으로 바뀌어야 하는 값을 바꾸어 준다..
-            // $("#title").html(title);
-            $("#bno").val(bno);
+            $("#deleteBno").val(bno);
 
             //modal을 띄워준다.
             $("#deleteBoardModal").modal('show');
+        }
+
+        function modifiedBoard(bno,title,contents) {
+            $("#modifiedBno").val(bno);
+            $("#modifiedBoardTitle").val(title);
+            $("#modifedBoardContents").val(contents);
+
+            //modal을 띄워준다.
+            $("#modifiedBoardModal").modal('show');
         }
     </script>
 

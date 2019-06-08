@@ -236,10 +236,10 @@
 
         //얻어온 값을 이용하여, modal 에서 동적으로 바뀌어야 하는 값을 바꾸어 준다..
         // $("#title").html(title);
-        $("#addboardRoomId").val(roomNo);
+        $("#roomNoFromReport").val(roomNo);
 
         //modal을 띄워준다.
-        $("#addReport").modal('show');
+        $("#addBoardModal").modal('show');
     }
 </script>
 

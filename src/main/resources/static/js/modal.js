@@ -1,7 +1,6 @@
 var action = "";
 var url = "";
 var type = "";
-var bno = 0;
 
 $(document).ready(function () {
 
@@ -67,8 +66,8 @@ $(document).ready(function () {
     });
 
     //글 쓰기
-    $("#modalSubmit").click(function () {
-        url = "/report/report/"+$("#addboardRoomId").val();
+    $("#addBoardBtn").click(function () {
+        url = "/report/report/"+$("#roomNoFromReport").val();
 
         var data = {
             "title": $("#boardTitle").val(),
@@ -88,14 +87,36 @@ $(document).ready(function () {
     });
 
     //글 삭제하기
-    $("#deleteBtn").click(function () {
-        url = "/report/report/"+$("#bno").val();
+    $("#deleteBoardBtn").click(function () {
+        url = "/report/report/"+$("#deleteBno").val();
 
         $.ajax({
             url: url,
             type: "delete",
             complete: function () {
-                location.href = '/report/report/'+$("#roomIdfromdeleteBoard").val();
+                location.href = '/report/report/'+$("#roomNoFromDetailReport").val();
+            }
+        })
+    });
+
+    //글 수정하기
+    $("#modifiedModalBtn").click(function () {
+        url = "/report/report/"+$("#roomNoFromDetailReport").val();
+
+        var data = {
+            "bno": $("#modifiedBno").val(),
+            "title": $("#modifiedBoardTitle").val(),
+            "contents": $("#modifedBoardContents").val()
+        };
+
+        $.ajax({
+            url: url,
+            type: "put",
+            data: JSON.stringify(data),
+            dataType :"json",
+            contentType: 'application/json',
+            complete: function (result) {
+                location.reload();
             }
         })
     });

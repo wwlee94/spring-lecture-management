@@ -104,7 +104,7 @@
 </div>
 
 <!-- 방에 글 추가하기 -->
-<div class="modal fade" id="addReport" role="dialog">
+<div class="modal fade" id="addBoardModal" role="dialog">
     <div class="modal-dialog modal-lg">
 
         <!-- Modal content-->
@@ -119,7 +119,7 @@
                     <label class="col-md-3 col-form-label form-control-label">제목</label>
                     <div class="col-md-9">
                         <input id = "boardTitle" class="form-control" type="text" value=""/>
-                        <input id = "addboardRoomId" class="form-control" type="hidden" value=""/>
+                        <input id = "roomNoFromReport" class="form-control" type="hidden" value=""/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -130,7 +130,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id = "modalSubmit" type="button" class="btn btn-success">Submit</button>
+                <button id = "addBoardBtn" type="button" class="btn btn-success">Submit</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -154,8 +154,43 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input id = "bno" class="form-control" type="hidden" value=""/>
-                <button id="deleteBtn" type="button" class="btn btn-danger">글 삭제하기</button>
+                <input id = "deleteBno" class="form-control" type="hidden" value=""/>
+                <button id="deleteBoardBtn" type="button" class="btn btn-danger">글 삭제하기</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 방에 글 수정하기 -->
+<div class="modal fade" id="modifiedBoardModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">글 수정하기</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label form-control-label">제목</label>
+                    <div class="col-md-9">
+                        <input id = "modifiedBoardTitle" class="form-control" type="text" value=""/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">내용</label>
+                    <div class="col-lg-9">
+                        <textarea class="form-control" id = "modifedBoardContents" rows="15"></textarea>\
+                        <input id = "modifiedBno" class="form-control" type="hidden" value=""/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id = "modifiedModalBtn" type="button" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
 
