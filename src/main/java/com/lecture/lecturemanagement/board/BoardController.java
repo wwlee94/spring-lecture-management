@@ -27,7 +27,7 @@ public class BoardController {
 
         LOGGER.info("CALLED :: /report/" + roomNo);
 
-        List<Board> boardList =  boardRepository.findByRoomNo(roomNo);
+        List<Board> boardList =  boardRepository.findByRoomNoOrderByCreatedDateDesc(roomNo);
 
         boardList.forEach((item)->{
             item.setDate(item.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
