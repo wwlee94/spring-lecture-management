@@ -164,7 +164,7 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>제목</th>
+                                <th style="width: 50%">제목</th>
                                 <th>작성자</th>
                                 <th>작성 일</th>
                                 <th>조회 수</th>
