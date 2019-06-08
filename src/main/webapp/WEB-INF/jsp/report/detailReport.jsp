@@ -187,7 +187,8 @@
                     <button type="button" class="btn btn-info" onclick="location.href='/report/report/${roomNo}'">목록으로</button>
 
                     <button type="button" class="btn btn-success">수정하기</button>
-                    <button type="button" class="btn btn-danger" onclick="">삭제하기</button>
+                    <input type="hidden" id="roomIdfromdeleteBoard" value="${roomNo}"/>
+                    <button type="button" class="btn btn-danger" onclick="deleteBoard('${board.bno}')">삭제하기</button>
 
 
                 </div>
@@ -233,7 +234,18 @@
         </div>
     </div>
 
-    
+    <script type="text/javascript">
+        function deleteBoard(bno){
+            //show 호출시 넘겨준 값을 이용하여 ajax 등을 통해 modal 을 띄울때 동적으로 바뀌어야 하는 값을 얻어온다.
+
+            //얻어온 값을 이용하여, modal 에서 동적으로 바뀌어야 하는 값을 바꾸어 준다..
+            // $("#title").html(title);
+            $("#bno").val(bno);
+
+            //modal을 띄워준다.
+            $("#deleteBoardModal").modal('show');
+        }
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>

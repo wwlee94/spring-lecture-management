@@ -137,3 +137,27 @@
 
     </div>
 </div>
+
+<!-- 글 삭제하기 Modal -->
+<div class="modal fade" id="deleteBoardModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">글 삭제하기</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div align="center" class="modal-body text-center">
+                <div class="text-center" align="center">
+                    글을 정말 삭제 하시겠습니까 ?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input id = "bno" class="form-control" type="hidden" value=""/>
+                <button id="deleteBtn" type="button" class="btn btn-danger">글 삭제하기</button>
+            </div>
+        </div>
+
+    </div>
+</div>

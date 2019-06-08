@@ -28,9 +28,9 @@ public class BoardController {
 
         LOGGER.info("CALLED :: /report/" + roomNo);
 
-        List<Board> boardList =  boardRepository.findByRoomNoOrderByCreatedDateDesc(roomNo);
+        List<Board> boardList = boardRepository.findByRoomNoOrderByCreatedDateDesc(roomNo);
 
-        boardList.forEach((item)->{
+        boardList.forEach((item) -> {
             item.setDate(item.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         });
 
@@ -40,7 +40,7 @@ public class BoardController {
     }
 
     @PostMapping(value = "/report/{roomNo}")
-    public void reportAdd(@RequestBody Map<String, Object> data,@PathVariable String roomNo, Model model,Principal principal) {
+    public void reportAdd(@RequestBody Map<String, Object> data, @PathVariable String roomNo, Model model, Principal principal) {
 
         LOGGER.info("CALLED :: /report/reportAdd/" + roomNo);
 
@@ -56,15 +56,24 @@ public class BoardController {
     }
 
     @GetMapping(value = "/report/{roomNo}/{bno}")
-    public String reportAdd(@PathVariable String roomNo,@PathVariable Long bno,Model model) {
+    public String reportAdd(@PathVariable String roomNo, @PathVariable Long bno, Model model) {
 
-        LOGGER.info("CALLED :: /report/" + roomNo + "/"+bno);
+        LOGGER.info("CALLED :: /report/" + roomNo + "/" + bno);
 
         Optional<Board> boardOptional = boardRepository.findById(bno);
         Board board = boardOptional.get();
 
-        model.addAttribute("board",board);
+        model.addAttribute("board", board);
 
         return "/report/detailReport";
+    }
+
+    @DeleteMapping(value = "/report/{bno}")
+    public void deleteBoard(@PathVariable Long bno) {
+
+        LOGGER.info("CALLED :: /report/deleteBoard" + bno);
+
+        Optional<Board> boardOptional = boardRepository.findById(bno);
+        boardRepository.delete(boardOptional.get());
     }
 }

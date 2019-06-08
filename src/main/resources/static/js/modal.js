@@ -86,4 +86,17 @@ $(document).ready(function () {
             }
         })
     });
+
+    //글 삭제하기
+    $("#deleteBtn").click(function () {
+        url = "/report/report/"+$("#bno").val();
+
+        $.ajax({
+            url: url,
+            type: "delete",
+            complete: function () {
+                location.href = '/report/report/'+$("#roomIdfromdeleteBoard").val();
+            }
+        })
+    });
 });
