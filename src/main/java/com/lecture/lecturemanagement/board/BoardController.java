@@ -39,6 +39,7 @@ public class BoardController {
         return "report/report";
     }
 
+    //roomNo 에 게시물 추가하기
     @PostMapping(value = "/report/{roomNo}")
     public void reportAdd(@RequestBody Map<String, Object> data, @PathVariable String roomNo, Model model, Principal principal) {
 
@@ -55,6 +56,7 @@ public class BoardController {
         boardRepository.save(board);
     }
 
+    //게시물 상세보기
     @GetMapping(value = "/report/{roomNo}/{bno}")
     public String reportAdd(@PathVariable String roomNo, @PathVariable Long bno, Model model) {
 
@@ -62,12 +64,15 @@ public class BoardController {
 
         Optional<Board> boardOptional = boardRepository.findById(bno);
         Board board = boardOptional.get();
+        board.setViesNum(board.getViesNum()+1);
+        boardRepository.save(board);
 
         model.addAttribute("board", board);
 
         return "/report/detailReport";
     }
 
+    //게시물 삭제하기
     @DeleteMapping(value = "/report/{bno}")
     public void deleteBoard(@PathVariable Long bno) {
 
