@@ -6,4 +6,4 @@ INSERT INTO report (`id`, `manager`, `name`, `password`) VALUES ('4', 'Inrock@na
 INSERT INTO `lecturemanagement`.`report_members` (`reports_id`, `members_id`) VALUES ('1', '1');
 INSERT INTO `lecturemanagement`.`report_members` (`reports_id`, `members_id`) VALUES ('2', '1');
 INSERT INTO `lecturemanagement`.`report_members` (`reports_id`, `members_id`) VALUES ('3', '1');
-INSERT INTO `lecturemanagement`.`report_members` (`reports_id`, `members_id`) VALUES ('2', '1');
+INSERT INTO `lecturemanagement`.`report_members` (`reports_id`, `members_id`) VALUES ('2', '2');

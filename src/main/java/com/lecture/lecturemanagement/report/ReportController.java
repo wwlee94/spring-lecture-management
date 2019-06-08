@@ -9,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.security.Principal;
 import java.util.*;
 
@@ -22,10 +20,6 @@ public class ReportController {
     MemberRepository memberRepository;
     @Autowired
     ReportRepository reportRepository;
-
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
-    private EntityManager entityManager;
 
     private Logger LOGGER = LogManager.getLogger(this.getClass());
 
@@ -63,14 +57,6 @@ public class ReportController {
         model.addAttribute("report", report.get());
 
         return "report/room";
-    }
-
-    @RequestMapping(value = "/report/{roomNo}")
-    public String reportView(@PathVariable String roomNo) {
-
-        LOGGER.info("CALLED :: /report/" + roomNo);
-
-        return "report/report";
     }
 
     @PostMapping(value = "/create")

@@ -167,39 +167,21 @@
                                 <th>제목</th>
                                 <th>작성자</th>
                                 <th>작성 일</th>
-                                <th>마감 일</th>
                                 <th>조회 수</th>
                                 <th>댓글 수</th>
                             </tr>
                             </thead>
                             <tbody>
+                            <c:forEach var="board" items="${boards}">
                             <tr>
-                                <td>1</td>
-                                <td>스프링 프로젝트 과제 1</td>
-                                <td>신우창</td>
-                                <td>2019-06-01</td>
-                                <td>2019-06-17</td>
-                                <td>3</td>
-                                <td>1</td>
+                                <td>${board.bno}</td>
+                                <td>${board.title}</td>
+                                <td>${board.userName}</td>
+                                <td>${board.date}</td>
+                                <td>${board.viesNum}</td>
+                                <td>#</td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>스프링 프로젝트 과제 1</td>
-                                <td>신우창</td>
-                                <td>2019-06-01</td>
-                                <td>2019-06-17</td>
-                                <td>3</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>스프링 프로젝트 과제 1</td>
-                                <td>신우창</td>
-                                <td>2019-06-01</td>
-                                <td>2019-06-17</td>
-                                <td>3</td>
-                                <td>1</td>
-                            </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </div>
