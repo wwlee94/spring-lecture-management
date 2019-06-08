@@ -158,112 +158,104 @@
                 </li>
             </ul>
             <br>
-                <div class="container">
-                    <h2>과제 게시판</h2>
-                    <div class="table-responsive table-striped">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th style="width: 50%">제목</th>
-                                <th>작성자</th>
-                                <th>작성 일</th>
-                                <th>조회 수</th>
-                                <th>댓글 수</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="board" items="${boards}">
-                            <tr>
-                                <td>${board.bno}</td>
-                                <td><a href="/report/report/${roomNo}/${board.bno}">${board.title}</a></td>
-                                <td>${board.userName}</td>
-                                <td>${board.date}</td>
-                                <td>${board.viesNum}</td>
-                                <td>#</td>
-                            </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                        <button onclick="addBoardFromRoom('${roomNo}')" id="addBoard" type="button" class="btn btn-info" data-toggle="modal">새 글 쓰기</button>
+            <div class="container">
+                <h2>글 상세 보기</h2>
+                <div class="table table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th class="success">작성자</th>
+                            <td>${board.userName}</td>
+                            <th class="success">작성일</th>
+                            <td>${board.createdDate}</td>
+                        </tr>
+                        <tr>
+                            <th class="success">조회수</th>
+                            <td>${board.viesNum}</td>
+                            <th class="success">수정일</th>
+                            <td>${board.modifiedDate}</td>
+                        </tr>
+                        <tr>
+                            <th class="success">제목</th>
+                            <td colspan="3">${board.title}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="success">글 내용</th>
+                            <td colspan="3">${board.contents}</td>
+                        </tr>
+                    </table>
+                    <button type="button" class="btn btn-info" onclick="location.href='/report/report/${roomNo}'">목록으로</button>
+
+                    <button type="button" class="btn btn-success">수정하기</button>
+                    <button type="button" class="btn btn-danger" onclick="">삭제하기</button>
+
+
+                </div>
+            </div>
+
+            <!-- Sticky Footer -->
+            <footer class="sticky-footer">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright © Your Website 2019</span>
                     </div>
                 </div>
-        </div>
+            </footer>
 
-        <!-- Sticky Footer -->
-        <footer class="sticky-footer">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright © Your Website 2019</span>
+        </div>
+        <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="security/login.jsp">Logout</a>
                 </div>
             </div>
-        </footer>
-
-    </div>
-    <!-- /.content-wrapper -->
-
-</div>
-<!-- /#wrapper -->
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
-
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="security/login.jsp">Logout</a>
-            </div>
         </div>
     </div>
-</div>
 
-<script type="text/javascript">
-    function addBoardFromRoom(roomNo){
-        //show 호출시 넘겨준 값을 이용하여 ajax 등을 통해 modal 을 띄울때 동적으로 바뀌어야 하는 값을 얻어온다.
+    
 
-        //얻어온 값을 이용하여, modal 에서 동적으로 바뀌어야 하는 값을 바꾸어 준다..
-        // $("#title").html(title);
-        $("#addboardRoomId").val(roomNo);
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        //modal을 띄워준다.
-        $("#addReport").modal('show');
-    }
-</script>
+    <%--modal--%>
+    <script src="/js/modal.js" type="text/javascript" charset="utf-8"></script>
 
-<!-- Bootstrap core JavaScript-->
-<script src="/vendor/jquery/jquery.min.js"></script>
-<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<%--modal--%>
-<script src="/js/modal.js" type="text/javascript" charset="utf-8"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="/vendor/chart.js/Chart.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin.min.js"></script>
 
-<!-- Page level plugin JavaScript-->
-<script src="/vendor/chart.js/Chart.min.js"></script>
-<script src="/vendor/datatables/jquery.dataTables.js"></script>
-<script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="/js/sb-admin.min.js"></script>
-
-<!-- dhtmlxscheduler js -->
-<script src="/js/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
-<script src="/js/dhtmlxscheduler_tooltip.js" type="text/javascript" charset="utf-8"></script>
+    <!-- dhtmlxscheduler js -->
+    <script src="/js/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/dhtmlxscheduler_tooltip.js" type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

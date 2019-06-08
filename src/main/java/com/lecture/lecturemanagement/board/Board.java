@@ -12,7 +12,7 @@ public class Board extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //게시판 글 번호
-    private int bno;
+    private Long bno;
 
     //게시판 작성자
     @Column(length = 20, nullable = false)

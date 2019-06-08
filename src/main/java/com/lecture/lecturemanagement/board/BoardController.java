@@ -11,6 +11,7 @@ import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/report")
@@ -54,12 +55,16 @@ public class BoardController {
         boardRepository.save(board);
     }
 
-//        Board board = new Board();
-//
-//        board.setContents("content");
-//        board.setTitle("title");
-//        board.setRoomNo(roomNo);
-//        board.setUserName("dlfma");
-//
-//        boardRepository.save(board);
+    @GetMapping(value = "/report/{roomNo}/{bno}")
+    public String reportAdd(@PathVariable String roomNo,@PathVariable Long bno,Model model) {
+
+        LOGGER.info("CALLED :: /report/" + roomNo + "/"+bno);
+
+        Optional<Board> boardOptional = boardRepository.findById(bno);
+        Board board = boardOptional.get();
+
+        model.addAttribute("board",board);
+
+        return "/report/detailReport";
+    }
 }
