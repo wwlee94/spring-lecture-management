@@ -65,4 +65,25 @@ $(document).ready(function () {
             }
         })
     });
+
+    //글 쓰기
+    $("#modalSubmit").click(function () {
+        url = "/report/report/"+$("#addboardRoomId").val();
+
+        var data = {
+            "title": $("#boardTitle").val(),
+            "contents": $("#contents").val()
+        };
+
+        $.ajax({
+            url: url,
+            type: "post",
+            data: JSON.stringify(data),
+            dataType :"json",
+            contentType: 'application/json',
+            complete: function (result) {
+                location.reload();
+            }
+        })
+    });
 });

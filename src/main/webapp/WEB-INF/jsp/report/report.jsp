@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="modal.jsp"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -184,10 +185,9 @@
                             </c:forEach>
                             </tbody>
                         </table>
+                        <button onclick="addBoardFromRoom('${roomNo}')" id="addBoard" type="button" class="btn btn-info btn-sm" data-toggle="modal">새 글 쓰기</button>
                     </div>
                 </div>
-
-
         </div>
 
         <!-- Sticky Footer -->
@@ -230,9 +230,25 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    function addBoardFromRoom(roomNo){
+        //show 호출시 넘겨준 값을 이용하여 ajax 등을 통해 modal 을 띄울때 동적으로 바뀌어야 하는 값을 얻어온다.
+
+        //얻어온 값을 이용하여, modal 에서 동적으로 바뀌어야 하는 값을 바꾸어 준다..
+        // $("#title").html(title);
+        $("#addboardRoomId").val(roomNo);
+
+        //modal을 띄워준다.
+        $("#addReport").modal('show');
+    }
+</script>
+
 <!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<%--modal--%>
+<script src="/js/modal.js" type="text/javascript" charset="utf-8"></script>
 
 <!-- Core plugin JavaScript-->
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
