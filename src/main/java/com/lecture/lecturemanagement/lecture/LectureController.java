@@ -9,9 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -41,6 +41,7 @@ public class LectureController {
         return mv;
     }
 
+    @ResponseBody
     @RequestMapping(value = "/timetable" , method = RequestMethod.POST)
     public String addLectureToTimeTable(TimeTable timeTable,
                                         @RequestParam("date_picker") String date_picker,
@@ -76,7 +77,7 @@ public class LectureController {
 
         }
 
-        return "redirect:/";
+        return "success";
     }
 
 }

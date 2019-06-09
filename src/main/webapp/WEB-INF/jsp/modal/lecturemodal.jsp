@@ -26,11 +26,11 @@
                     <span aria-hidden="true" style="color:#FFF;">&times;</span>
                 </button>
             </div>
-            <form action="/lecture/timetable" method="post" onsubmit="return checkForm();">
+            <form action="/lecture/timetable" method="post" id="add_LectureForm">
                 <!--Body-->
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="modal_lecture" class="col-form-label font-weight-bold">수업 과목</label>
+                        <label for="modal_lecture" class="col-form-label font-weight-bold">수업 과목 *</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <button class="btn btn-danger" type="button">
@@ -84,7 +84,7 @@
 
                     <!-- 강의 시간 값 없을 때 -->
                     <div id="show_clockpicker">
-                        <p class="font-weight-bold"> 강의 날짜 &nbsp; &nbsp;</p>
+                        <p class="font-weight-bold"> 강의 날짜 *</p>
 
                         <!-- datapicker -->
 
@@ -139,7 +139,7 @@
                 </div> <!-- body -->
                 <!--Footer-->
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-info" value="추가">
+                    <input type="button" class="btn btn-info" id="submit_btn" value="추가">
                     <button type="button" class="btn btn-outline-info" data-dismiss="modal">취소</button>
                 </div>
 
@@ -155,6 +155,10 @@
         var modal_start_val = $('#modal_start_time').val();
         var modal_end_val = $('#modal_end_time').val();
 
+        //강좌 이름 , 날짜는 필수 입력
+        var modal_lecture = $('#modal_lecture').val();
+        var modal_date = $('#modal_start_date').val();
+
         var now = new Date();
         //기준값 설정
         var validate_start = new Date(now.getFullYear(),now.getMonth(),now.getDate(),9,0,0);
@@ -167,25 +171,23 @@
         var modal_start_time = new Date(now.getFullYear(),now.getMonth(),now.getDate(),start_parts[0],start_parts[1],0);
         var modal_end_time = new Date(now.getFullYear(),now.getMonth(),now.getDate(),end_parts[0],end_parts[1],0);
 
-        console.log("validate_start : "+validate_start);
-        console.log("validate_end : "+validate_end);
-
-        console.log("modal_start_time : "+modal_start_time);
-        console.log("modal_end_time : "+modal_end_time);
-
         notify_state = false;
         message = "";
 
-        //validation 검사
+        //항목 validation 검사
         if(modal_start_time.getTime()<validate_start.getTime()
             || modal_start_time.getTime() > validate_end.getTime()){
             notify_state = true;
-            message = "강의 시작 시간을 다시 입력해주세요 :) <br> (9:00 ~ 18:00)";
+            message = "강의 시작 시간을 다시 입력해주세요 :) <br> ( 9:00 ~ 18:00 )";
         }
         else if(modal_end_time.getTime()<validate_start.getTime()
             || modal_end_time.getTime() > validate_end.getTime()){
             notify_state = true;
-            message = "강의 종료 시간을 다시 입력해주세요 :) <br> (9:00 ~ 18:00)";
+            message = "강의 종료 시간을 다시 입력해주세요 :) <br> ( 9:00 ~ 18:00 )";
+        }
+        else if(modal_lecture === "" || modal_date === ""){
+            notify_state = true;
+            message = "필수 입력 칸을 입력해주세요 :)";
         }
 
         //validate를 만족하지 못한다면 알림 보내줌
@@ -210,6 +212,45 @@
         }
 
         return true;
-
     }
+
+    //lecturemodal의 form이 submit 될때 ajax로 서버에서 중복 되는 날짜가 있는 지 검사 후 데이터 삽입
+    $('#submit_btn').click(function () {
+
+        //lecturemodal에 있는 메소드 form의 validate 검사후 성공적이면 true 반환
+        var state = checkForm();
+
+        if (state === true) {
+            $.ajax({
+                url: $('#add_LectureForm').attr('action'),
+                type: 'POST',
+                data: $('#add_LectureForm').serialize(),
+                success: function (response) {
+                    if (response === "success") {
+                        $('#lectureModal').modal('hide');
+
+                        //알림
+                        $.notify({
+                            icon: 'fa fa-paw',
+                            title: '<strong> 강의 추가 </strong><br>',
+                            message: "강의를 성공적으로 추가했습니다 !"
+                        }, {
+                            type: 'success',
+                            offset: 50,
+                            z_index: 99999,
+                            animate: {
+                                enter: 'animated bounceIn',
+                                exit: 'animated bounceOut'
+                            },
+                            newest_on_top: true
+                        });
+
+                    }
+                }
+            });
+        } else {
+            console.log(" No Send ajax !");
+        }
+    });
+
 </script>

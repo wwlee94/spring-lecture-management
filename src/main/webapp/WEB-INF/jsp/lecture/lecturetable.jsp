@@ -36,6 +36,9 @@
     <!-- datepicker -->
     <link href="/css/datepicker/datepicker.min.css" rel="stylesheet">
 
+    <!-- Jquery (modal에서도 쓰기위해 head에 선언) -->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -262,7 +265,6 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap-notify.js"></script>
 
@@ -314,7 +316,7 @@
         days: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
         daysShort: ['일', '월', '화', '수', '목', '금', '토'],
         daysMin: ['일', '월', '화', '수', '목', '금', '토'],
-        months: ['1월','2월','3월','4월','5월','6월', '7월','8월','9월','10월','11월','12월'],
+        months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
         monthsShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
         today: 'Today', // Today -> 오늘
         clear: 'Clear', // Clear -> 지우기
@@ -325,12 +327,13 @@
 
     var disabledDays = [0, 6];
 
+    //datepicker 환경 설정
     $('.datepicker-here').datepicker({
         language: 'ko',
         minDate: new Date(), // Now can select only dates, which goes after today
-        position : 'top right',
-        autoClose : true,
-        navTitles : {
+        position: 'top right',
+        autoClose: true,
+        navTitles: {
             days: '<b>yyyy 년, MM</b>'
         },
 
@@ -363,18 +366,19 @@
         var division = td.eq(5).text();
         var grade = td.eq(6).text();
 
-        //값 비워주기 - 강의시간 있던 tr눌렀다가 없는 tr눌러서 제출누르면 값 같이 전송됨
+        //값 비워주기 - 강의시간(column) 있던 tr을 눌렀다가 없는 tr눌러서 제출누르면 값 같이 전송됨
         $('#modal_lecture_time').val("");
+        $('#modal_start_date').val("");
 
         //비어있으면 lectureModal로 시간 설정 내가 직접
-        if(lecture_time===""){
+        if (lecture_time === "") {
 
             //view 설정
             $('#show_lecture_time').hide();
             $('#show_clockpicker').show();
         }
         //값이 있으면 lecture_time 값대로 설정
-        else{
+        else {
             //값 설정
             $('#modal_lecture_time').val(lecture_time);
 
@@ -396,7 +400,7 @@
 
     }); //DataTable
 
-    function setLectureTime(){
+    function setLectureTime() {
 
 
     }
