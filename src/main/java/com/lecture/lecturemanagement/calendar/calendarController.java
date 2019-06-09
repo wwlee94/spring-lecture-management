@@ -54,24 +54,34 @@ public class calendarController {
             //오늘 날짜를 기준으로 월요일 가져옴
             Date mon = getMonday(new Date());
 
+            //Date to LocalDateTime 형 변환
             LocalDateTime monday = convertToLocalDateTimeViaInstant(mon);
-            //LocalDateTime friday = monday.plusDays(4);
+            LocalDateTime friday = monday.plusDays(4);
+
+            System.out.println("\n오늘 날짜 기준 월"+monday);
+            System.out.println("오늘 날짜 기준 금"+friday);
 
             LocalDateTime start_date = timeTable.getStart_date();
             LocalDateTime end_date = timeTable.getEnd_date();
 
+            System.out.println("저장된 start_date"+start_date);
+
             int count = 0;
-            //현재 보여주는 월화수목금 이전이나 이후 날짜면 수정!
-            // || start_date.isAfter(friday)
+            boolean equal = false;
+
+            //* 현재 저장된 날짜가 보여주는 월화수목금 이전일때 *
             if(start_date.isBefore(monday)){
+                //이전
                 if(start_date.getMonth() == monday.getMonth()){
                     if(start_date.getDayOfMonth() == monday.getDayOfMonth()){
                         System.out.println("같은날 ^^");
                         System.out.println("start_date " + start_date);
                         System.out.println("monday "+ monday);
+
+                        equal = true;
                     }
                 }
-                else {
+                if(!equal) {
                     //저장된 날짜와 상관없이 요일확인후 현재일 기준 월~금 날짜로 조정
                     if(start_date.getDayOfWeek()== DayOfWeek.MONDAY) count = 0;
                     else if(start_date.getDayOfWeek()== DayOfWeek.TUESDAY) count = 1;
@@ -89,7 +99,49 @@ public class calendarController {
                     str_start_date = start_DateTime.format(formatter);
                     str_end_date = end_DateTime.format(formatter);
                 }
+                else{
+                    str_start_date = timeTable.getStart_date().format(formatter);
+                    str_end_date = timeTable.getEnd_date().format(formatter);
+                }
             }
+            //* 현재 저장된 날짜가 보여주는 월화수목금 이후일때 *
+            else if(start_date.isAfter(friday)){
+                if(start_date.getMonth() == friday.getMonth()){
+                    if(start_date.getDayOfMonth() == friday.getDayOfMonth()){
+                        System.out.println("같은날 ^^");
+                        System.out.println("start_date " + start_date);
+                        System.out.println("friday "+ friday);
+
+                        equal = true;
+                    }
+                }
+                //저장된 날짜와 오늘 기준으로 이번주 금요일의 날짜와 같지 않을 때
+                if(!equal){
+                    //저장된 날짜와 상관없이 요일확인후 현재일 기준 월~금 날짜로 조정
+                    if(start_date.getDayOfWeek()== DayOfWeek.MONDAY) count = 4;
+                    else if(start_date.getDayOfWeek()== DayOfWeek.TUESDAY) count = 3;
+                    else if(start_date.getDayOfWeek()== DayOfWeek.WEDNESDAY) count = 2;
+                    else if(start_date.getDayOfWeek()== DayOfWeek.THURSDAY) count = 1;
+                    else if(start_date.getDayOfWeek()== DayOfWeek.FRIDAY) count = 0;
+
+                    //년,월,일 맞춰준것
+                    LocalDate localDate = LocalDate.of(friday.getYear(),friday.getMonthValue(),friday.getDayOfMonth()-count);
+
+                    //시간,분,초 더해준것
+                    LocalDateTime start_DateTime = localDate.atTime(start_date.getHour(),start_date.getMinute(),start_date.getSecond());
+                    LocalDateTime end_DateTime = localDate.atTime(end_date.getHour(),end_date.getMinute(),end_date.getSecond());
+
+                    //localdatetime to string 포맷으로 변경
+                    str_start_date = start_DateTime.format(formatter);
+                    str_end_date = end_DateTime.format(formatter);
+
+                }else{
+                    //localdatetime to string 포맷으로 변경
+                    str_start_date = timeTable.getStart_date().format(formatter);
+                    str_end_date = timeTable.getEnd_date().format(formatter);
+                }
+            }
+            // *저장된 날짜가 딱 이번주 월~금 사이에 포함되는 날짜들*
             else{
                 //localdatetime to string 포맷으로 변경
                 str_start_date = timeTable.getStart_date().format(formatter);
@@ -101,6 +153,7 @@ public class calendarController {
             timeTable.setStr_end_date(str_end_date);
 
             //색상 대입
+            //TODO: 같은 과목이름이면 색상 동일하도록
             timeTable.setColor(color);
             color++;
             if(color==8) color = 1;

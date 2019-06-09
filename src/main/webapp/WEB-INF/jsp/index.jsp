@@ -120,7 +120,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/calendar/timetable">
-          <i class="fas fa-fw fa-chart-area"></i>
+          <i class="fas fa-fw fa-clock"></i>
           <span>TimeTable</span></a>
       </li>
     </ul>

@@ -26,6 +26,16 @@
     <!-- dhtmlxscheduler css -->
     <link rel="stylesheet" href="/css/dhtmlxscheduler_material.css" type="text/css" charset="utf-8">
 
+    <!--loader -->
+    <link href="/css/loader.css" rel="stylesheet">
+    <!-- animate -->
+    <link href="/css/animate.css" rel="stylesheet">
+
+    <!-- clockpicker -->
+    <link href="/css/datepicker/bootstrap-clockpicker.min.css" rel="stylesheet">
+    <!-- datepicker -->
+    <link href="/css/datepicker/datepicker.min.css" rel="stylesheet">
+
     <style>
 
         .dhx_cal_event div {
@@ -89,30 +99,73 @@
             background-color: #F17F42 !important;
             border-color: White !important;
         }
+        /* lightbox 디자인 설정 */
+        .dhx_cal_ltitle{
+            background-color : #0099CC;
+            height : 43px;
+        }
+        .dhx_save_btn_set{
+            background-color: #0099CC;
+        }
+        .dhx_cancel_btn_set{
+            color: #0099CC;
+        }
 
+
+        /* //hour_scale 커스터마이징 -> view 설정 옵션 */
+
+        .dhx_scale_hour_main {
+            float: left;
+            text-align: right;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+        .dhx_scale_hour_minute_cont {
+            float: left;
+            position: relative;
+            text-align: right;
+        }
+        .dhx_scale_hour_minute_top, .dhx_scale_hour_minute_bottom {
+            font-size: 10px;
+            padding-right: 5px;
+        }
+        .dhx_scale_hour_sep {
+            position: absolute;
+            height: 1px;
+            background-color: #8C929A;
+            right: 0;
+            top: 20px;
+            width: 20px;
+            margin-top: 4px;
+        }
     </style>
 
     <!-- dhtmlxscheduler script -->
     <script type="text/javascript" charset="utf-8">
 
         function init() {
+
+            console.log(scheduler.config.default_date);
             scheduler.config.xml_date = "%Y-%m-%d %H:%i";           //json으로 등록할때 xml 형식
             scheduler.config.time_step = 30;                        //30분 단위
             scheduler.config.first_hour = 9;                        //타임 테이블 시작 시간
-            scheduler.config.last_hour = 20;                        //타임 테이블 마지막 시간
+            scheduler.config.last_hour = 19;                        //타임 테이블 마지막 시간
+            scheduler.config.hour_size_px = 52;                     //시간단위 높이 조절
             scheduler.config.limit_time_select = true;              //set in the lightbox -> 'last_hour' and 'first_hour' options limit
 
             //?
             scheduler.config.details_on_dblclick = true;
             scheduler.config.details_on_create = true;
 
+            scheduler.config.buttons_left = ["dhx_save_btn", "dhx_cancel_btn"];
+            scheduler.config.buttons_right = ["dhx_delete_btn"];
+
             //같은 timeslot에 이벤트 한개로 제한
             scheduler.config.collision_limit = 1;
 
             //month config
             // scheduler.config.max_month_events = 3;                  //월별 이벤트 3개로 제한
-
-            // scheduler.config.show_loading = true;                   //loading spinner 보여주기
 
             // // recurring config
             // scheduler.config.repeat_date = "%m/%d/%Y";
@@ -132,19 +185,25 @@
                     css += " selected";
                 }
                 return css; // default return
+            };
 
-                /*
-                    Note that it is possible to create more complex checks
-                    events with the same properties could have different CSS classes depending on the current view:
-
-                    var mode = scheduler.getState().mode;
-                    if(mode == "day"){
-                        // custom logic here
-                    }
-                    else {
-                        // custom logic here
-                    }
-                */
+            //hour_scale 00/30 나누기 커스터마이징 -> view 설정 옵션
+            scheduler.templates.hour_scale = function(date){
+                var hour = date.getHours();
+                var top = '00';
+                var bottom = '30';
+                if(hour==0)
+                    top = 'AM';
+                if(hour==12)
+                    top = 'PM';
+                hour =  ((date.getHours()+11)%12)+1;
+                var html = '';
+                var section_width = Math.floor(scheduler.xy.scale_width/2);
+                var minute_height = Math.floor(scheduler.config.hour_size_px/2);
+                html += "<div class='dhx_scale_hour_main' style='width: "+section_width+"px; height:"+(minute_height*2)+"px;'>"+hour+"</div><div class='dhx_scale_hour_minute_cont' style='width: "+section_width+"px;'>";
+                html += "<div class='dhx_scale_hour_minute_top' style='height:"+minute_height+"px; line-height:"+minute_height+"px;'>"+top+"</div><div class='dhx_scale_hour_minute_bottom' style='height:"+minute_height+"px; line-height:"+minute_height+"px;'>"+bottom+"</div>";
+                html += "<div class='dhx_scale_hour_sep'></div></div>";
+                return html;
             };
 
             //event_class
@@ -160,14 +219,14 @@
                 {name: "subject", height: 43, map_to: "subject", type: "textarea", focus: true},
                 {name: "professor", height: 43, map_to: "professor", type: "textarea"},
                 {name: "location", height: 43, map_to: "location", type: "textarea"},
-                {name: "time", height: 72, type: "time", map_to: "auto", time_format: ["%Y", "%m", "%d", "%H:%i"]}
+                {name: "time", height: 72, type: "time", map_to: "auto", time_format: ["%H:%i" , "%Y", "%m", "%d"]}
             ];
 
             //locale 설정 -> 직접 #한글화#
             scheduler.locale = {
                 date: {
-                    month_full: ["1월", "2월", "3월", "4월", "5월", "6월",
-                        "7월", "8월", "9월", "10월", "11월", "12월"],
+                    month_full:["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"],
                     month_short: ["1월", "2월", "3월", "4월", "5월", "6월",
                         "7월", "8월", "9월", "10월", "11월", "12월"],
                     day_full: ["일요일", "월요일", "화요일", "수요일", "목요일",
@@ -177,8 +236,8 @@
                 labels: {
                     dhx_cal_today_button: "오늘",
                     day_tab: "일",
-                    week_tab: "주간 스케줄",
-                    month_tab: "월별 스케줄",
+                    week_tab: "주간 시간표",
+                    month_tab: "월",
                     new_event: "새로운 일정",
                     icon_save: "저장",
                     icon_cancel: "취소",
@@ -190,8 +249,8 @@
 
                     section_subject: "수업 과목",
                     section_professor: "교수 이름",
-                    section_location: '수업 장소',
-                    section_time: "수업 시간",
+                    section_location: '강의 장소',
+                    section_time: "강의 시간",
 
                     full_day: "Full day",
 
@@ -214,13 +273,32 @@
                 }
             };
 
-            //week header 설정
+            //navline 제목의 week_date 설정
+            scheduler.templates.week_date = function(start, end){
+
+                start_format = start.getFullYear()+"년 "+(start.getMonth()+1)+"월 "+start.getDate()+"일";
+
+                var new_end = scheduler.date.add(end,-1,"day");
+                end_format = new_end.getFullYear()+"년 "+(new_end.getMonth()+1)+"월 "+(new_end.getDate()-2)+"일";
+
+                return start_format+" &ndash; "+end_format;
+            };
+
+            var week = ['일', '월', '화', '수', '목', '금', '토'];
+            //navline 제목 하단의 요일,월,일 설정
+            scheduler.templates.week_scale_date = function(date){
+                return week[date.getDay()]+" , "+(date.getMonth()+1)+" / "+date.getDate();
+            };
+
+            //event week header 설정
             scheduler.templates.event_header = function (start, end, ev) {
                 return scheduler.templates.event_date(start) + " ~ " +
                     scheduler.templates.event_date(end);
             };
 
-            //week event text + location + professor
+
+
+            //event week 내용 설정 text + location + professor
             scheduler.attachEvent("onTemplatesReady", function () {
                 scheduler.templates.event_text = function (start, end, event) {
                     return '<b>과목 : </b>' + event.subject +
@@ -334,6 +412,27 @@
                 }//if
             });
 
+            //충돌 설정
+            scheduler.attachEvent("onEventCollision", function (ev, evs){
+
+                //알림
+                $.notify({
+                    icon: 'fa fa-paw',
+                    title: '<strong> Try Again !</strong><br>',
+                    message: "나의 시간표와 중복되는 시간이 있습니다 :)"
+                },{
+                    type: 'warning',
+                    offset: 50,
+                    animate: {
+                        enter: 'animated bounceIn',
+                        exit: 'animated bounceOut'
+                    },
+                    newest_on_top: true
+                });
+
+                return true;
+            });
+
             //툴팁 설정
             dhtmlXTooltip.config.timeout_to_display = 0;
             dhtmlXTooltip.config.timeout_to_hide = 0;
@@ -360,8 +459,16 @@
                     return true;
             };
 
-            //스케쥴 초기화
-            scheduler.init('scheduler_here', new Date(), "week");
+            var week = ['일', '월', '화', '수', '목', '금', '토'];
+            if(week[new Date().getDay()] === '일'){
+                var today = new Date();
+                //스케쥴 초기화
+                scheduler.init('scheduler_here', today.setDate(today.getDate()+1), "week");
+            }
+            else {
+                //스케쥴 초기화
+                scheduler.init('scheduler_here', new Date(), "week");
+            }
 
 
             //db 정보 받아 json형태로 파싱
@@ -392,16 +499,6 @@
             //         end_date: "2019-05-29 12:00"
             //     }
             // ], "json");
-
-            // console.log(scheduler.getState().lightbox_id);
-            //
-            // if (scheduler.getState().lightbox_id){
-            //     //the code for the opened lightbox
-            //     //to get the value
-            //     var value = scheduler.formSection('subject').getValue();
-            // } else {
-            //     //the code for the closed lightbox
-            // }
 
         }//init()
 
@@ -480,7 +577,7 @@
 
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav">
-        <li class="nav-item active">
+        <li class="nav-item">
             <a class="nav-link" href="/">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span>
@@ -508,17 +605,23 @@
                 <i class="fas fa-fw fa-table"></i>
                 <span>Lectures</span></a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
             <a class="nav-link" href="/calendar/timetable">
-                <i class="fas fa-fw fa-chart-area"></i>
+                <i class="fas fa-fw fa-clock"></i>
                 <span>TimeTable</span></a>
         </li>
     </ul>
 
     <div id="content-wrapper">
 
+
+        <!-- loader -->
+        <div class="container-fluid">
+            <div class="loader"></div>
+        </div>
+
         <!-- scheduler -->
-        <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+        <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%; display: none'>
             <div class="dhx_cal_navline">
                 <!-- 다음주 이전 주 버튼 -->
                 <%--<div class="dhx_cal_prev_button">&nbsp;</div>--%>
@@ -579,6 +682,7 @@
 <!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap-notify.js"></script>
 
 <!-- Core plugin JavaScript-->
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -602,6 +706,23 @@
 <script src="/js/dhtmlx/dhtmlxscheduler_tooltip.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/dhtmlx/dhtmlxscheduler_collision.js" type="text/javascript" charset="utf-8"></script>
 
+<!-- timepicker -->
+<script src="/js/datepicker/bootstrap-clockpicker.min.js"></script>
+<!-- datepicker -->
+<script src="/js/datepicker/datepicker.min.js"></script>
+
+
+<script>
+    <!-- 로딩 완료되면 -->
+    $(document).ready(function(){
+        setTimeout(function(){
+            // 1초 후 작동
+            $('.loader').hide('fast');
+            $('#scheduler_here').fadeIn('fast');
+            scheduler.updateView();
+        }, 1500);
+    });
+</script>
 </body>
 
 </html>

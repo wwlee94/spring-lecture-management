@@ -11629,8 +11629,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLengthMenu": "_MENU_ 개씩",
-	
+			"sLengthMenu": "_MENU_ 개 씩",
+
 	
 			/**
 			 * When using Ajax sourced data and during the first draw when DataTables is
@@ -11709,7 +11709,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "검색: ",
+			"sSearch": "검색 : ",
 	
 	
 			/**
@@ -11720,7 +11720,7 @@
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.searchPlaceholder
 			 */
-			"sSearchPlaceholder": "Search for ...",
+			"sSearchPlaceholder": "",
 	
 	
 			/**
