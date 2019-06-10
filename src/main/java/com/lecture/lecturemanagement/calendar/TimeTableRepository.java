@@ -13,6 +13,7 @@ public interface TimeTableRepository extends JpaRepository<TimeTable,Long> {
 //    @Query("select t from TimeTable t where t.id = :id")
 //    TimeTable findAllById(@Param("id") long id);
 
+    //ID로 모든 TimeTable 조회
     @Query("select t from TimeTable t where t.uid=:uid order by t.uid asc")
     List<TimeTable> findAllByUid(@Param("uid") String uid);
 

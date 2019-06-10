@@ -146,7 +146,6 @@
 
         function init() {
 
-            console.log(scheduler.config.default_date);
             scheduler.config.xml_date = "%Y-%m-%d %H:%i";           //json으로 등록할때 xml 형식
             scheduler.config.time_step = 30;                        //30분 단위
             scheduler.config.first_hour = 9;                        //타임 테이블 시작 시간

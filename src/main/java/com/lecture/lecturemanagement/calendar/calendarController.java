@@ -48,18 +48,18 @@ public class calendarController {
         String str_start_date = "";
         String str_end_date = "";
 
+        //오늘 날짜를 기준으로 월요일 가져옴
+        Date mon = getMonday(new Date());
+
+        //Date to LocalDateTime 형 변환
+        LocalDateTime monday = convertToLocalDateTimeViaInstant(mon);
+        LocalDateTime friday = monday.plusDays(4);
+
+        System.out.println("\n오늘 날짜 기준 월"+monday);
+        System.out.println("오늘 날짜 기준 금"+friday);
+
         for(int i=0;i<tableList.size();i++){
             TimeTable timeTable = tableList.get(i);
-
-            //오늘 날짜를 기준으로 월요일 가져옴
-            Date mon = getMonday(new Date());
-
-            //Date to LocalDateTime 형 변환
-            LocalDateTime monday = convertToLocalDateTimeViaInstant(mon);
-            LocalDateTime friday = monday.plusDays(4);
-
-            System.out.println("\n오늘 날짜 기준 월"+monday);
-            System.out.println("오늘 날짜 기준 금"+friday);
 
             LocalDateTime start_date = timeTable.getStart_date();
             LocalDateTime end_date = timeTable.getEnd_date();

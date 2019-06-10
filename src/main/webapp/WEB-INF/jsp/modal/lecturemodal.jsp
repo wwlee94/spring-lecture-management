@@ -5,6 +5,39 @@
     .datepicker {
         z-index: 9999 !important
     }
+
+    .modal-header {
+        padding: 14px 15px;
+    }
+
+    .modal-content {
+        background-color: #0099CC;
+        border-right: black;
+    }
+
+    .modal-body {
+        background-color: #FFFFF7;
+    }
+
+    .modal-footer {
+        background-color: #FFFFF7;
+    }
+
+    .close_x {
+        float: right;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1;
+        color: #FFF;
+        opacity: 1;
+    }
+
+    /* close button 설정 */
+    .close_x:hover {
+        color: #FFF;
+        opacity: 0.75;
+        text-decoration: none;
+    }
 </style>
 
 
@@ -12,7 +45,7 @@
 <div class="modal fade" id="lectureModal" tabindex="-1" role="dialog"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <div class="modal-content" style="background-color: #FFFFF7">
+        <div class="modal-content">
             <!--Header-->
             <!--color mdb
                 info-color-dark #0099CC
@@ -20,10 +53,10 @@
                 default-color #2BBBAD
                 unique color #3F729B
             -->
-            <div class="modal-header" style="background-color: #0099CC; color:#FFF;">
-                <h4 class="modal-title" id="myModalLabel">강의 추가</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#FFF;">
-                    <span aria-hidden="true" style="color:#FFF;">&times;</span>
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel" style="color: #FFF; font-size: large">강의 추가</h4>
+                <button type="button" class="close close_x" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form action="/lecture/timetable" method="post" id="add_LectureForm">
@@ -161,46 +194,58 @@
 
         var now = new Date();
         //기준값 설정
-        var validate_start = new Date(now.getFullYear(),now.getMonth(),now.getDate(),9,0,0);
-        var validate_end = new Date(now.getFullYear(),now.getMonth(),now.getDate(),18,0,0);
+        var validate_start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0);
+        var validate_end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0);
 
         //문자열 분해 xx:yy 형태
-        var start_parts =modal_start_val.split(':');
-        var end_parts =modal_end_val.split(':');
+        var start_parts = modal_start_val.split(':');
+        var end_parts = modal_end_val.split(':');
 
-        var modal_start_time = new Date(now.getFullYear(),now.getMonth(),now.getDate(),start_parts[0],start_parts[1],0);
-        var modal_end_time = new Date(now.getFullYear(),now.getMonth(),now.getDate(),end_parts[0],end_parts[1],0);
+        var modal_start_time = new Date(now.getFullYear(), now.getMonth(), now.getDate(), start_parts[0], start_parts[1], 0);
+        var modal_end_time = new Date(now.getFullYear(), now.getMonth(), now.getDate(), end_parts[0], end_parts[1], 0);
 
         notify_state = false;
         message = "";
 
-        //항목 validation 검사
-        if(modal_start_time.getTime()<validate_start.getTime()
-            || modal_start_time.getTime() > validate_end.getTime()){
-            notify_state = true;
-            message = "강의 시작 시간을 다시 입력해주세요 :) <br> ( 9:00 ~ 18:00 )";
+        var modal_lecture_time = $('#modal_lecture_time').val();
+        //강의 시간이 등록 안되어 있으면 직접 입력하는 Form 의 validation 검사
+        if (modal_lecture_time === "") {
+            //항목 validation 검사
+            if (modal_start_time.getTime() < validate_start.getTime()
+                || modal_start_time.getTime() > validate_end.getTime()) {
+                notify_state = true;
+                message = "강의 시작 시간을 다시 입력해주세요 :) <br> ( 9:00 ~ 18:00 )";
+            } else if (modal_end_time.getTime() < validate_start.getTime()
+                || modal_end_time.getTime() > validate_end.getTime()) {
+                notify_state = true;
+                message = "강의 종료 시간을 다시 입력해주세요 :) <br> ( 9:00 ~ 18:00 )";
+            } else if (modal_start_time.getTime() > modal_end_time.getTime()) {
+                notify_state = true;
+                message = "강의 시작 시간이 종료 시간보다 커요 :) <br> ( 9:00 ~ 18:00 )";
+            } else if (modal_lecture === "" || modal_date === "") {
+                notify_state = true;
+                message = "필수 입력 칸을 입력해주세요 :)";
+            }
         }
-        else if(modal_end_time.getTime()<validate_start.getTime()
-            || modal_end_time.getTime() > validate_end.getTime()){
-            notify_state = true;
-            message = "강의 종료 시간을 다시 입력해주세요 :) <br> ( 9:00 ~ 18:00 )";
-        }
-        else if(modal_lecture === "" || modal_date === ""){
-            notify_state = true;
-            message = "필수 입력 칸을 입력해주세요 :)";
+        //존재하면 DB에 lecture_time 값이 존재하는 또 다른 Form -> validation 검사
+        else {
+            if (modal_lecture === "") {
+                notify_state = true;
+                message = "필수 입력 칸을 입력해주세요 :)";
+            }
         }
 
         //validate를 만족하지 못한다면 알림 보내줌
-        if(notify_state){
+        if (notify_state) {
             //알림
             $.notify({
                 icon: 'fa fa-paw',
                 title: '<strong> Try Again !</strong><br>',
                 message: message
-            },{
+            }, {
                 type: 'warning',
                 offset: 50,
-                z_index : 99999,
+                z_index: 99999,
                 animate: {
                     enter: 'animated bounceIn',
                     exit: 'animated bounceOut'
@@ -228,24 +273,32 @@
                 success: function (response) {
                     if (response === "success") {
                         $('#lectureModal').modal('hide');
+                        title = '<strong> 강의 추가 </strong><br>';
+                        message = "강의를 성공적으로 추가했습니다 !";
+                    }//success
 
-                        //알림
-                        $.notify({
-                            icon: 'fa fa-paw',
-                            title: '<strong> 강의 추가 </strong><br>',
-                            message: "강의를 성공적으로 추가했습니다 !"
-                        }, {
-                            type: 'success',
-                            offset: 50,
-                            z_index: 99999,
-                            animate: {
-                                enter: 'animated bounceIn',
-                                exit: 'animated bounceOut'
-                            },
-                            newest_on_top: true
-                        });
-
+                    //저장하고 싶은 값과 시간표 충돌 일어났을 때
+                    else if (response === "collision") {
+                        title = '<strong>  Try Again ! </strong><br>';
+                        message = "나의 시간표와 중복되는 시간이 있습니다 :)"
                     }
+
+                    //알림
+                    $.notify({
+                        icon: 'fa fa-paw',
+                        title: title,
+                        message: message
+                    }, {
+                        type: 'success',
+                        offset: 50,
+                        z_index: 99999,
+                        animate: {
+                            enter: 'animated bounceIn',
+                            exit: 'animated bounceOut'
+                        },
+                        newest_on_top: true
+                    });
+
                 }
             });
         } else {
