@@ -355,7 +355,6 @@ public class LectureController {
                 String subject = timeTable.getSubject();
                 String professor = timeTable.getProfessor();
                 String location = timeTable.getLocation();
-
                 String str_start = resultStartDateTime[i].format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 String str_end = resultEndDateTime[i].format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
@@ -364,7 +363,7 @@ public class LectureController {
 
                 System.out.println("resultStartDateTime : "+resultStartDateTime[i]);
                 System.out.println("resultEndDateTime : "+resultEndDateTime[i]);
-                //TODO: 저장하면됌!!!!
+
                 timeTableRepository.save(timeTable);
             }
 

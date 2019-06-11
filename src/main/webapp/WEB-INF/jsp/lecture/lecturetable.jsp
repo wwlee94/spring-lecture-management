@@ -265,7 +265,8 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- 무슨 문제 있으면 bootstrap.min.js -> bundle로 변경한 것 확인 -->
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap-notify.js"></script>
 
 <!-- Core plugin JavaScript-->
