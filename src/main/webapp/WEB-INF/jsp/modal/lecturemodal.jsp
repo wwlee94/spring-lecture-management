@@ -172,7 +172,7 @@
                 </div> <!-- body -->
                 <!--Footer-->
                 <div class="modal-footer">
-                    <input type="button" class="btn btn-info" id="submit_btn" value="추가">
+                    <input type="button" class="btn btn-info" id="submit_btn" value="저장">
                     <button type="button" class="btn btn-outline-info" data-dismiss="modal">취소</button>
                 </div>
 

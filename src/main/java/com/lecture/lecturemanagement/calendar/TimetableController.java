@@ -164,20 +164,24 @@ public class TimetableController {
                 //현재 timeTable 이름과 lecture_color의 요소와 이름이 같은게 있으면!
                 //lecture_color에 subject이름을 담고 해당 인덱스로 color 설정
                 if (timeTable.getSubject().equals(lecture_color.get(j))) {
-                    System.out.println("찾은 과목 : "+timeTable.getSubject());
-                    System.out.println("색상 index : "+j);
-                    timeTable.setColor(j+1);
+                    System.out.println("찾은 과목 : " + timeTable.getSubject());
+                    System.out.println("색상 index : " + j);
+                    int colorIndex = j;
+                    colorIndex = colorIndex % 7;
+                    timeTable.setColor(colorIndex + 1);
                     findColor = true;
                 }
             }
 
             //같은 이름을 못찾았으면!
-            if(!findColor) {
+            if (!findColor) {
                 lecture_color.add(timeTable.getSubject());
                 timeTable.setColor(color);
                 color++;
-                if (color == 7) color = 1;
+                if (color == 8) color = 1;
             }
+
+            System.out.println(lecture_color.toString());
 
 //            //lecture_time 설정
 //            timeTable.setLecture_time();

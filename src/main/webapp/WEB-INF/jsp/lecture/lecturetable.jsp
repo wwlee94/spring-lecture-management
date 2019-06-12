@@ -148,6 +148,11 @@
                 <i class="fas fa-fw fa-clock"></i>
                 <span>TimeTable</span></a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/calendar/calendartable">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Calendar</span></a>
+        </li>
     </ul>
 
     <div id="content-wrapper">

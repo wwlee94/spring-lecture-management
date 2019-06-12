@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>시간표 일정</title>
+    <title>강의 시간표</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -39,7 +39,7 @@
     <style>
 
         .dhx_cal_event div {
-            background-color: #47b8e0 !important;
+            background-color: #5780ab !important;
         }
 
         .dhx_cal_event div.dhx_footer,
@@ -84,31 +84,49 @@
             border-color: White !important;
         }
 
-
         /*.dhx_cal_event.event_5 div {*/
         /*background-color: #47b8e0 !important;*/
         /*border-color: White !important;*/
         /*}*/
 
         .dhx_cal_event.event_5 div {
+        background-color: #5780ab !important;
+        border-color: White !important;
+        }
+
+        .dhx_cal_event.event_6 div {
             background-color: #58C9B9 !important;
             border-color: White !important;
         }
 
-        .dhx_cal_event.event_6 div {
+        .dhx_cal_event.event_7 div {
             background-color: #F17F42 !important;
             border-color: White !important;
         }
+
         /* lightbox 디자인 설정 */
         .dhx_cal_ltitle{
-            background-color : #0099CC;
-            height : 43px;
+            background-color : #5780ab;
+            border-bottom: #5780ab;
+            height : 45px;
+            padding-top: 5px;
         }
         .dhx_save_btn_set{
-            background-color: #0099CC;
+            background-color: #5780ab;
+            border-color: #5780ab;
         }
+        .dhx_save_btn_set:hover {
+            border-color: #466287;
+            transition: all .1s ease-in-out
+        }
+        .dhx_save_btn_set:hover div {
+            background-color: #466287;
+            border-color: #466287;
+            transition: all .1s ease-in-out
+        }
+
         .dhx_cancel_btn_set{
-            color: #0099CC;
+            color: #5780ab;
         }
 
 
@@ -157,8 +175,9 @@
             scheduler.config.details_on_dblclick = true;
             scheduler.config.details_on_create = true;
 
-            scheduler.config.buttons_right = ["dhx_cancel_btn","dhx_save_btn"];
-            scheduler.config.buttons_left = ["dhx_delete_btn"];
+            //버튼 위치
+            // scheduler.config.buttons_right = ["dhx_cancel_btn","dhx_save_btn"];
+            // scheduler.config.buttons_left = ["dhx_delete_btn"];
 
             //같은 timeslot에 이벤트 한개로 제한
             scheduler.config.collision_limit = 1;
@@ -618,6 +637,11 @@
             <a class="nav-link" href="/calendar/timetable">
                 <i class="fas fa-fw fa-clock"></i>
                 <span>TimeTable</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/calendar/calendartable">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Calendar</span></a>
         </li>
     </ul>
 
