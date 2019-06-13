@@ -1,6 +1,8 @@
 package com.lecture.lecturemanagement.calendar;
 
 import com.lecture.lecturemanagement.login.security.SecurityMember;
+import com.lecture.lecturemanagement.semister.Semister;
+import com.lecture.lecturemanagement.semister.SemisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +29,14 @@ public class TimetableController {
 
     @Autowired
     TimeTableRepository timeTableRepository;
+
+    @Autowired
+    SemisterRepository semisterRepository;
+
+    @Autowired
+    CalendarTableRepository calendarTableRepository;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     //사용자 정보 가져오기 위한 변수
     private Object object;
@@ -224,6 +236,12 @@ public class TimetableController {
         //저장
         timeTableRepository.save(timeTable);
 
+        ///////////calendar에도 해당되는 요일들 모두 추가
+        LocalDateTime localDateTime_start = LocalDateTime.parse(start_date,formatter);
+        LocalDateTime localDateTime_end = LocalDateTime.parse(end_date,formatter);
+
+        setCalendarAllRegister(0,subject,professor,location,localDateTime_start,localDateTime_end);
+
         return "TimeTable Add OK";
     }
 
@@ -243,8 +261,6 @@ public class TimetableController {
 
         if (object.getClass().getName().equals("com.springboot.web.login.security.SecurityMember")) {
             uid = ((SecurityMember) object).getUsername();
-        } else {
-            uid = "woowon";
         }
 
         //값 대입후 세팅
@@ -257,18 +273,52 @@ public class TimetableController {
         //수정
         timeTableRepository.save(timeTable);
 
+////        ///////////calendar에도 해당되는 요일들 모두 수정
+//        LocalDateTime localDateTime_start = LocalDateTime.parse(start_date,formatter);
+//        LocalDateTime localDateTime_end = LocalDateTime.parse(end_date,formatter);
+//
+//        List<CalendarTable> calendarTableList = calendarTableRepository.findAllByUid(uid);
+//
+//        System.out.println(calendarTableList.size());
+//
+//        LocalDateTime now = LocalDateTime.now();
+//
+//        //요일을 가져옴
+//        DayOfWeek dayOfWeek = localDateTime_start.getDayOfWeek();
+//
+//        for(int i=0;i<calendarTableList.size();i++){
+//            CalendarTable calendarTable = calendarTableList.get(i);
+//            calendarTable.setUid(uid);
+//            System.out.println(calendarTable.getId());
+//            System.out.println(calendarTable.getTitle());
+//            if(calendarTable.getTitle().equals(subject)){
+//                System.out.println("제목과 과목이름이 같습니다.");
+//
+//
+//                calendarTableRepository.save(calendarTable);
+//            }
+//        }
+
+
+
         return "TimeTable Update OK";
     }
 
     //시간표 삭제
     @ResponseBody
     @RequestMapping(value = "/timetable", method = RequestMethod.DELETE)
-    public String deleteTimeTable(@RequestParam("id") Long id) {
+    public String deleteTimeTable(@RequestParam("id") Long id,
+                                  @RequestParam("subject") String subject,
+                                  Principal principal) {
 
         System.out.println("TimeTable DELETE !");
 
         //수정
         timeTableRepository.deleteTimeTableById(id);
+
+        uid = principal.getName();
+        //삭제
+        calendarTableRepository.deleteCalendarTableByUidAndSubject(uid,subject);
 
         return "TimeTable Delete OK";
     }
@@ -287,5 +337,61 @@ public class TimetableController {
         return dateToConvert.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
+    }
+
+    //lecture 등록시 모든 캘린더에 해당하는 요일들 모두 추가
+    public void setCalendarAllRegister(long id,String subject,String professor,String location,LocalDateTime start_date,LocalDateTime end_date) {
+        //calendar의 일정 등록
+        CalendarTable calendarTable = new CalendarTable();
+        calendarTable.setUid(uid);
+        //추가한 날짜만큼 반복
+
+        LocalDateTime now = LocalDateTime.now();
+
+        List<Semister> semisterList = semisterRepository.findAll();
+        //요일을 가져옴
+        DayOfWeek dayOfWeek = start_date.getDayOfWeek();
+        System.out.println("dayOfWeek : " + dayOfWeek);
+        for (int k = 0; k < semisterList.size(); k++) {
+            Semister semister = semisterList.get(k);
+            System.out.println("semister 데이터 가져옴");
+            if (now.isBefore(semister.getEnd_date()) && now.isAfter(semister.getStart_date())) {
+                System.out.println("조건 성립하는 semister 가져온다");
+                LocalDateTime semister_start = semister.getStart_date();
+                LocalDateTime semister_end = semister.getEnd_date();
+
+                System.out.println("semister_start : " + semister_start);
+                System.out.println("semister_end : " + semister_end);
+
+                while (semister_start.isBefore(semister_end)) {
+
+                    //다음주 요일 -> 같으면 같은 날짜 반환
+                    System.out.println("semister_end.isBefore(semiseter_start)");
+
+                    semister_start = semister_start.with(TemporalAdjusters.nextOrSame(dayOfWeek));
+
+                    String str_semister_start = semister_start
+                            .plusHours(start_date.getHour())
+                            .plusMinutes(start_date.getMinute())
+                            .format(formatter);
+                    String str_semister_end = semister_start
+                            .plusHours(start_date.getHour())
+                            .plusMinutes(start_date.getMinute())
+                            .format(formatter);
+
+                    //calendar에 날짜 저장
+                    calendarTable.setUpdateTimeTable(
+                            id, subject, professor, location, str_semister_start, str_semister_end
+                    );
+
+                    System.out.println("저장!");
+                    calendarTableRepository.save(calendarTable);
+
+                    //7일 추가
+                    semister_start = semister_start.plusDays(7);
+                }
+                break;
+            }
+        }
     }
 }

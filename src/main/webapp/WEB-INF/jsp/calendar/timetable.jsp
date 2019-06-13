@@ -262,7 +262,7 @@
                     section_location: '강의 장소',
                     section_time: "강의 시간",
 
-                    full_day: "Full day",
+                    full_day: "하루 동안",
 
                     /* touch tooltip*/
                     drag_to_create: "드래그 해서 만드세요 !",
@@ -414,7 +414,8 @@
                     type = "DELETE";
 
                     data = {
-                        "id": id
+                        "id": id,
+                        "subject" :event.subject
                     };
 
                     $.ajax({

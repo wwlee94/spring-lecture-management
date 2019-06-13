@@ -1,8 +1,12 @@
 package com.lecture.lecturemanagement.lecture;
 
+import com.lecture.lecturemanagement.calendar.CalendarTable;
+import com.lecture.lecturemanagement.calendar.CalendarTableRepository;
 import com.lecture.lecturemanagement.calendar.TimeTable;
 import com.lecture.lecturemanagement.calendar.TimeTableRepository;
 import com.lecture.lecturemanagement.login.security.SecurityMember;
+import com.lecture.lecturemanagement.semister.Semister;
+import com.lecture.lecturemanagement.semister.SemisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -30,12 +36,20 @@ public class LectureController {
     @Autowired
     LectureRepository lectureRepository;
 
+    @Autowired
+    CalendarTableRepository calendarTableRepository;
+
+    @Autowired
+    SemisterRepository semisterRepository;
+
     //사용자 정보 가져오기 위한 변수
     private Object object;
     private String uid;
 
     private LocalDateTime[] resultStartDateTime;
     private LocalDateTime[] resultEndDateTime;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView getLecture() {
@@ -65,7 +79,7 @@ public class LectureController {
 
         List<TimeTable> tableList = timeTableRepository.findAllByUid(uid);
 
-        //비어있으면 시간을 직접 입력했다는 뜻
+        //////////비어있으면 시간을 직접 입력해서 DB 저장!!
         if (timeTable.getLecture_time().equals("")) {
 
             long id = 0;
@@ -135,7 +149,7 @@ public class LectureController {
 
             System.out.println("최종 : " + state);
 
-            //state == true
+            //state == true -> 충돌이 안일어남!!
             if (state) {
                 //Uid 설정
                 timeTable.setUid(uid);
@@ -149,7 +163,8 @@ public class LectureController {
                 return "collision";
             }
         }
-        //lecture_time 이 존재하면 -> 자동으로 시간에 맞춰서 DB 삽입
+
+        /////////////////lecture_time 이 존재하면 -> 자동으로 시간에 맞춰서 DB 삽입
         else {
             //문자열 패턴
             //^ :문자열의 시작 $ :문자열의 종료 * : 없을 수도 여러 개 일수도
@@ -202,7 +217,7 @@ public class LectureController {
             } else if (split_day3.length != 1) {
                 System.out.println("월2,3/수2,3 형태");
                 split_day1_1 = split_day3;
-            } else if(split_day4.length != 1){
+            } else if (split_day4.length != 1) {
                 System.out.println("월8,9,10금8,9,10 이런형태");
                 split_day1_1 = split_day4;
             }
@@ -287,7 +302,7 @@ public class LectureController {
 
                 boolean state = true;
 
-                //list 둘러보며 validation 검사
+                //list 둘러보며 validation 충돌 검사
                 for (int k = 0; k < tableList.size(); k++) {
 
                     TimeTable table = tableList.get(k);
@@ -339,7 +354,7 @@ public class LectureController {
 
                 //state == true
                 if (state) {
-                   //
+                    //
                 }
                 //state == false
                 else {
@@ -348,23 +363,28 @@ public class LectureController {
 
             }//for
 
-            for(int i=0;i<resultStartDateTime.length;i++) {
+            //세팅후 저장
+            for (int i = 0; i < resultStartDateTime.length; i++) {
                 //Uid 설정
                 timeTable.setUid(uid);
                 long id = 0;
                 String subject = timeTable.getSubject();
                 String professor = timeTable.getProfessor();
                 String location = timeTable.getLocation();
-                String str_start = resultStartDateTime[i].format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                String str_end = resultEndDateTime[i].format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                String str_start = resultStartDateTime[i].format(formatter);
+                String str_end = resultEndDateTime[i].format(formatter);
 
                 //start,end -> String to LocalDateTime 형 변환 해줌
                 timeTable.setUpdateTimeTable(id, subject, professor, location, str_start, str_end);
 
-                System.out.println("resultStartDateTime : "+resultStartDateTime[i]);
-                System.out.println("resultEndDateTime : "+resultEndDateTime[i]);
+                System.out.println("resultStartDateTime : " + resultStartDateTime[i]);
+                System.out.println("resultEndDateTime : " + resultEndDateTime[i]);
 
                 timeTableRepository.save(timeTable);
+
+                //calendar에 해당 과목 요일을 모든 날짜에 추가
+                setCalendarAllRegister(i,id,subject,professor,location);
+
             }
 
         }//else lecture_time이 존재하는 경우
@@ -428,6 +448,62 @@ public class LectureController {
 
         System.out.println("시작 시간" + lectureTime.start);
         System.out.println("종료 시간" + lectureTime.end);
+    }
+
+    //lecture 등록시 모든 캘린더에 해당하는 요일들 모두 추가
+    public void setCalendarAllRegister(int index,long id,String subject,String professor,String location) {
+        //calendar의 일정 등록
+        CalendarTable calendarTable = new CalendarTable();
+        calendarTable.setUid(uid);
+        //추가한 날짜만큼 반복
+
+        LocalDateTime now = LocalDateTime.now();
+
+        List<Semister> semisterList = semisterRepository.findAll();
+        //요일을 가져옴
+        DayOfWeek dayOfWeek = resultStartDateTime[index].getDayOfWeek();
+        System.out.println("dayOfWeek : " + dayOfWeek);
+        for (int k = 0; k < semisterList.size(); k++) {
+            Semister semister = semisterList.get(k);
+            System.out.println("semister 데이터 가져옴");
+            if (now.isBefore(semister.getEnd_date()) && now.isAfter(semister.getStart_date())) {
+                System.out.println("조건 성립하는 semister 가져온다");
+                LocalDateTime semister_start = semister.getStart_date();
+                LocalDateTime semister_end = semister.getEnd_date();
+
+                System.out.println("semister_start : " + semister_start);
+                System.out.println("semister_end : " + semister_end);
+
+                while (semister_start.isBefore(semister_end)) {
+
+                    //다음주 요일 -> 같으면 같은 날짜 반환
+                    System.out.println("semister_end.isBefore(semiseter_start)");
+
+                    semister_start = semister_start.with(TemporalAdjusters.nextOrSame(dayOfWeek));
+
+                    String str_semister_start = semister_start
+                            .plusHours(resultStartDateTime[index].getHour())
+                            .plusMinutes(resultStartDateTime[index].getMinute())
+                            .format(formatter);
+                    String str_semister_end = semister_start
+                            .plusHours(resultEndDateTime[index].getHour())
+                            .plusMinutes(resultStartDateTime[index].getMinute())
+                            .format(formatter);
+
+                    //calendar에 날짜 저장
+                    calendarTable.setUpdateTimeTable(
+                            id, subject, professor, location, str_semister_start, str_semister_end
+                    );
+
+                    System.out.println("저장!");
+                    calendarTableRepository.save(calendarTable);
+
+                    //7일 추가
+                    semister_start = semister_start.plusDays(7);
+                }
+                break;
+            }
+        }
     }
 
 }

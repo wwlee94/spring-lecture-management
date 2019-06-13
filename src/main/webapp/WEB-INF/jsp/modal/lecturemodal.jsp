@@ -16,11 +16,11 @@
     }
 
     .modal-body {
-        background-color: #FFFFF7;
+        background-color: #FFFFFF;
     }
 
     .modal-footer {
-        background-color: #FFFFF7;
+        background-color: #FFFFFF;
     }
 
     .close_x {
@@ -266,6 +266,7 @@
         var state = checkForm();
 
         if (state === true) {
+
             $.ajax({
                 url: $('#add_LectureForm').attr('action'),
                 type: 'POST',

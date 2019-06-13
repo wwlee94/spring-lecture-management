@@ -59,22 +59,26 @@
             opacity: 1;
         }
 
-        .dhx_cal_event.event_1 div {
+        .dhx_cal_event.event_1 div,
+        .dhx_cal_event_line.event_1{
             background-color: #ff7473 !important;
             border-color: White !important;
         }
 
-        .dhx_cal_event.event_2 div {
+        .dhx_cal_event.event_2 div,
+        .dhx_cal_event_line.event_2{
             background-color: #A593E0 !important;
             border-color: White !important;
         }
 
-        .dhx_cal_event.event_3 div {
+        .dhx_cal_event.event_3 div,
+        .dhx_cal_event_line.event_3{
             background-color: #ffc952 !important;
             border-color: White !important;
         }
 
-        .dhx_cal_event.event_4 div {
+        .dhx_cal_event.event_4 div,
+        .dhx_cal_event_line.event_4{
             background-color: #8CD790 !important;
             border-color: White !important;
         }
@@ -84,20 +88,51 @@
         /*border-color: White !important;*/
         /*}*/
 
-        .dhx_cal_event.event_5 div {
+        .dhx_cal_event.event_5 div,
+        .dhx_cal_event_line.event_5{
             background-color: #5780ab !important;
             border-color: White !important;
         }
 
-        .dhx_cal_event.event_6 div {
+        .dhx_cal_event.event_6 div,
+        .dhx_cal_event_line.event_6{
             background-color: #58C9B9 !important;
             border-color: White !important;
         }
 
-        .dhx_cal_event.event_7 div {
+        .dhx_cal_event.event_7 div,
+        .dhx_cal_event_line.event_7{
             background-color: #F17F42 !important;
             border-color: White !important;
         }
+
+        /* month text color 설정 */
+        .dhx_cal_event_clear{
+            color: #5780ab;
+            background-color: White;
+        }
+
+        /*.dhx_cal_event_clear.event_1{*/
+            /*color: #ff7473;*/
+        /*}*/
+        /*.dhx_cal_event_clear.event_2{*/
+            /*color: #A593E0;*/
+        /*}*/
+        /*.dhx_cal_event_clear.event_3{*/
+            /*color: #ffc952;*/
+        /*}*/
+        /*.dhx_cal_event_clear.event_4{*/
+            /*color: #8CD790;*/
+        /*}*/
+        /*.dhx_cal_event_clear.event_5{*/
+            /*color: #5780ab;*/
+        /*}*/
+        /*.dhx_cal_event_clear.event_6{*/
+            /*color: #58C9B9;*/
+        /*}*/
+        /*.dhx_cal_event_clear.event_7{*/
+            /*color: #F17F42;*/
+        /*}*/
 
         /* lightbox 버튼 디자인 설정 */
         .dhx_cal_ltitle{
@@ -136,7 +171,7 @@
             scheduler.config.limit_time_select = true;              //set in the lightbox -> 'last_hour' and 'first_hour' options limit
             scheduler.config.mark_now = true;                       //현재시각 빨간색 라인으로 표시
             scheduler.config.multi_day = true;                      //서브헤더랑 content 사이에 뜨는 하루짜리 이벤트
-
+            scheduler.config.full_day = true;                       //클릭하면 4일 00:00 ~ 5일 00:00 으로 바로 설정
             //?
             scheduler.config.details_on_dblclick = true;
             scheduler.config.details_on_create = true;
@@ -155,7 +190,7 @@
 
                 var css = "";
 
-                if (event.subject) // if event has subject property then special class should be assigned
+                if (event.title) // if event has subject property then special class should be assigned
                     css += "event_" + event.color;
 
                 if (event.id == scheduler.getState().select_id) {
@@ -174,8 +209,8 @@
             // ];
 
             scheduler.config.lightbox.sections = [
-                {name: "subject", height: 43, map_to: "subject", type: "textarea", focus: true},
-                {name: "professor", height: 43, map_to: "professor", type: "textarea"},
+                {name: "title", height: 43, map_to: "title", type: "textarea", focus: true},
+                {name: "explanation", height: 43, map_to: "explanation", type: "textarea"},
                 {name: "location", height: 43, map_to: "location", type: "textarea"},
                 {name: "time", height: 72, type: "time", map_to: "auto", time_format: ["%H:%i" , "%Y", "%m", "%d"]}
             ];
@@ -205,12 +240,12 @@
                     confirm_closing: "",// Your changes will be lost, are your sure?
                     confirm_deleting: "일정을 삭제하시겠습니까?",
 
-                    section_subject: "수업 과목",
-                    section_professor: "교수 이름",
-                    section_location: '강의 장소',
-                    section_time: "강의 시간",
+                    section_title: "제목",
+                    section_explanation: "설명",
+                    section_location: '장소',
+                    section_time: "시간",
 
-                    full_day: "Full day",
+                    full_day: "종일",
 
                     /* touch tooltip*/
                     drag_to_create: "드래그 해서 만드세요 !",
@@ -272,6 +307,14 @@
                 return month_string;
             };
 
+            //event month text
+            scheduler.templates.event_bar_text = function(start,end,event){
+                if(event.title==="" || event.title ===null || event.title === "undefined" || event.title === undefined){
+                    return "새로운 일정";
+                }
+                return event.title;
+            };
+
             // // view more locale
             // scheduler.templates.month_events_link = function(date, count){
             //     return "<a>View more("+count+" events)</a>";
@@ -281,11 +324,11 @@
             scheduler.attachEvent("onTemplatesReady", function () {
                 scheduler.templates.event_text = function (start, end, event) {
                     var result = "";
-                    if (event.subject != "") {
-                        result = result + "<b>과목 : </b>" + event.subject + "<br/>";
+                    if (event.title != "") {
+                        result = result + "<b>제목 : </b>" + event.title + "<br/>";
                     }
-                    if (event.professor != "") {
-                        result = result + "<b>교수 : </b>" + event.professor + "<br/>";
+                    if (event.explanation != "") {
+                        result = result + "<b>설명 : </b>" + event.explanation + "<br/>";
                     }
                     if (event.location != "") {
                         result = result + "<b>장소 : </b>" + event.location + "<br/>";
@@ -301,40 +344,49 @@
                 console.log("onEventAdded");
                 console.log(id);
 
-                // url = '/calendar/timetable';
-                // type = "POST";
-                //
-                // start_date = moment(event.start_date).format("YYYY-MM-DD HH:mm:ss"); //"2013-03-10 23:22:00"
-                // end_date = moment(event.end_date).format("YYYY-MM-DD HH:mm:ss"); //"2013-03-10 23:22:00"
-                //
-                // // //두 날짜의 차이
-                // // var start_time = new Date(event.start_date);
-                // // var end_time = new Date(event.end_date);
-                // //
-                // // //이벤트 길이 (초 단위)
-                // // event_length = (end_time.getTime() - start_time.getTime()) / 1000;
-                //
-                //
-                // data = {
-                //     "id": id,
-                //     "subject": event.subject,
-                //     "professor": event.professor,
-                //     "location": event.location,
-                //     "start_date": start_date,
-                //     "end_date": end_date
-                // };
-                //
-                // $.ajax({
-                //     url: url,
-                //     type: type,
-                //     data: data,
-                //     //complete 되면 reload
-                //     complete: function (data) {
-                //         //console.log(data.toString());
-                //         //로딩 안해도 되는데 색상때문에?
-                //         location.reload();
-                //     }
-                // });
+                url = '/calendar/calendartable';
+                type = "POST";
+
+                start_date = moment(event.start_date).format("YYYY-MM-DD HH:mm:ss"); //"2013-03-10 23:22:00"
+                end_date = moment(event.end_date).format("YYYY-MM-DD HH:mm:ss"); //"2013-03-10 23:22:00"
+
+                //비어있으면 0 , 존재하면 가져와서 사용
+                if(event.event_pid==="" || event.event_pid===null){
+                    pid = parseInt("0");
+                }
+                else{
+                    pid = parseInt(event.event_pid);
+                }
+
+                //비어있으면 0 , 존재하면 가져와서 사용
+                if(event.event_length==="" || event.event_length===null){
+                    leng = parseInt("0");
+                }
+                else{
+                    // length = parseInt((event.end_date - event.start_date)/1000);
+                    leng = parseInt(event.event_length);
+                }
+
+                data = {
+                    "id": id,
+                    "title": event.title,
+                    "explanation": event.explanation,
+                    "location": event.location,
+                    "str_start_date": start_date,
+                    "str_end_date": end_date
+                };
+
+                $.ajax({
+                    url: url,
+                    type: type,
+                    data: data,
+                    //complete 되면 reload
+                    complete: function (data) {
+                        //console.log(data.toString());
+                        //로딩 안해도 되는데 색상때문에?
+                        location.reload();
+                    }
+                });
             });
 
             //이벤트 수정시
@@ -343,71 +395,89 @@
 
                 console.log(id);
 
-                // url = '/calendar/timetable';
-                // type = "PUT";
-                //
-                // start_date = moment(event.start_date).format("YYYY-MM-DD HH:mm:ss"); //"2013-03-10 23:22:00"
-                // end_date = moment(event.end_date).format("YYYY-MM-DD HH:mm:ss"); //"2013-03-10 23:22:00"
-                //
-                // data = {
-                //     "id": id,
-                //     "subject": event.subject,
-                //     "professor": event.professor,
-                //     "location": event.location,
-                //     "start_date": start_date,
-                //     "end_date": end_date
-                // };
-                //
-                // $.ajax({
-                //     url: url,
-                //     type: type,
-                //     data: data,
-                //     //complete 되면 reload
-                //     complete: function (data) {
-                //         //console.log(data.toString());
-                //         //location.reload();
-                //     }
-                // });
+                url = '/calendar/calendartable';
+                type = "PUT";
+
+                start_date = moment(event.start_date).format("YYYY-MM-DD HH:mm:ss"); //"2013-03-10 23:22:00"
+                end_date = moment(event.end_date).format("YYYY-MM-DD HH:mm:ss"); //"2013-03-10 23:22:00"
+
+                //비어있으면 0 , 존재하면 가져와서 사용
+                if(event.event_pid==="" || event.event_pid===null){
+                    pid = parseInt("0");
+                }
+                else{
+                    pid = parseInt(event.event_pid);
+                }
+
+                //비어있으면 0 , 존재하면 가져와서 사용
+                if(event.event_length==="" || event.event_length===null){
+                    leng = parseInt("0");
+                }
+                else{
+                    // length = parseInt((event.end_date - event.start_date)/1000);
+                    leng = parseInt(event.event_length);
+                }
+
+                data = {
+                    "id": id,
+                    "title": event.title,
+                    "explanation": event.explanation,
+                    "location": event.location,
+                    "str_start_date": start_date,
+                    "str_end_date": end_date
+                };
+
+                $.ajax({
+                    url: url,
+                    type: type,
+                    data: data,
+                    //complete 되면 reload
+                    complete: function (data) {
+                        //console.log(data.toString());
+                        //location.reload();
+                    }
+                });
 
             });
 
             //Delete 버튼 클릭시
             scheduler.attachEvent("onEventDeleted", function (id, event) {
                 console.log("onEventDeleted");
+                console.log(id);
 
-                // //Delete 취소시에도 동작해서
-                // if (id < 150000000000) {
-                //     console.log(id);
-                //
-                //     url = '/calendar/timetable';
-                //     type = "DELETE";
-                //
-                //     data = {
-                //         "id": id
-                //     };
-                //
-                //     $.ajax({
-                //         url: url,
-                //         type: type,
-                //         data: data,
-                //         //complete 되면 reload
-                //         complete: function (data) {
-                //             //js로 event 삭제
-                //             //scheduler.deleteEvent(id);
-                //
-                //         }
-                //     });
-                // }//if
+                //Delete 취소시에도 동작해서
+                if (id < 150000000000) {
+
+                    url = '/calendar/calendartable';
+                    type = "DELETE";
+
+                    data = {
+                        "id": id
+                    };
+
+                    $.ajax({
+                        url: url,
+                        type: type,
+                        data: data,
+                        //complete 되면 reload
+                        complete: function (data) {
+                            //js로 event 삭제
+                            //scheduler.deleteEvent(id);
+
+                        }
+                    });
+                }//if
             });
 
             //충돌 설정
+            /*
             scheduler.attachEvent("onEventCollision", function (ev, evs){
 
                 //알림
                 $.notify({
                     icon: 'fa fa-paw',
                     title: '<strong> Try Again !</strong><br>',
-                    message: "나의 시간표와 중복되는 시간이 있습니다 :)"
+                    message: "이벤트 충돌이에요 :)"
                 },{
                     type: 'warning',
                     offset: 50,
@@ -420,6 +490,7 @@
 
                 return true;
             });
+            */
 
             //툴팁 설정
             dhtmlXTooltip.config.timeout_to_display = 0;
@@ -428,51 +499,55 @@
             var format = scheduler.date.date_to_str("%H : %i");
             scheduler.templates.tooltip_text = function (start, end, event) {
                 var result = "";
-                if (event.subject != "") {
-                    result = result + "<b>과목 : </b>" + event.subject + "<br/>";
+                if (event.title != "") {
+                    result = result + "<b>제목 : </b>" + event.title + "<br/>";
                 }
-                if (event.professor != "") {
-                    result = result + "<b>교수 : </b>" + event.professor + "<br/>";
+                if (event.explanation != "") {
+                    result = result + "<b>설명 : </b>" + event.explanation + "<br/>";
                 }
                 if (event.location != "") {
                     result = result + "<b>장소 : </b>" + event.location + "<br/>";
                 }
 
-                return result + "<b>수업 시간 : </b>" + format(start) + " ~ " + format(end);
+                if(format(start)==="00 : 00" && format(end)==="00 : 00"){
+                    var betweenDay = (end.getTime() - start.getTime())/1000/60/60/24;
+
+                    return result + "<b>기간 : </b>" + betweenDay + "일";
+                }
+                return result + "<b>기간 : </b>" + format(start) + " ~ " + format(end);
             };
 
             //스케쥴 초기화
             scheduler.init('scheduler_here', new Date(),"month");
 
-            <%--//db 정보 받아 json형태로 파싱--%>
-            <%--var jsonarray = [];--%>
+            //db 정보 받아 json형태로 파싱
+            var jsonarray = [];
 
-            <%--<c:forEach var="table" items="${tablelist}">--%>
-            <%--var json = {};--%>
-            <%--json.id = "${table.id}";--%>
-            <%--json.subject = "${table.subject}";--%>
-            <%--json.professor = "${table.professor}";--%>
-            <%--json.location = "${table.location}";--%>
-            <%--json.start_date = "${table.str_start_date}";--%>
-            <%--json.end_date = "${table.str_end_date}";--%>
-            <%--json.color = "${table.color}";--%>
-            <%--&lt;%&ndash;json.lecture_time = "${table.lecture_time}";&ndash;%&gt;--%>
+            <c:forEach var="calendar" items="${calendarList}">
+            var json = {};
+            json.id = "${calendar.id}";
+            json.title = "${calendar.title}";
+            json.explanation = "${calendar.explanation}";
+            json.location = "${calendar.location}";
+            json.start_date = "${calendar.str_start_date}";
+            json.end_date = "${calendar.str_end_date}";
+            json.color = "${calendar.color}";
 
-            <%--jsonarray.push(json);--%>
-            <%--</c:forEach>--%>
+            jsonarray.push(json);
+            </c:forEach>
 
-            // scheduler.parse(jsonarray, "json");
+            scheduler.parse(jsonarray, "json");
 
-            //json 으로 데이터 넣기
-            scheduler.parse([
-                {
-                    subject: 'english',
-                    professor:'신우창',
-                    location: '북악관 608호',
-                    start_date: "2019-06-12 09:00",
-                    end_date: "2019-06-12 12:00"
-                }
-            ], "json");
+            //json 으로 데이터 넣기 12일 9시 ~ 19일까지
+            // scheduler.parse([
+            //     {
+            //         title: 'english',
+            //         explanation:'신우창',
+            //         location: '북악관 608호',
+            //         start_date: "2019-06-12 00:00:00",
+            //         end_date: "2019-06-13 00:00:00",
+            //     }
+            // ], "json");
 
         }//init()
 
@@ -557,9 +632,9 @@
 <!-- dhtmlxscheduler js -->
 <script src="/js/dhtmlx/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/dhtmlx/dhtmlxscheduler_tooltip.js" type="text/javascript" charset="utf-8"></script>
-<script src="/js/dhtmlx/dhtmlxscheduler_collision.js" type="text/javascript" charset="utf-8"></script>
+<%--<script src="/js/dhtmlx/dhtmlxscheduler_collision.js" type="text/javascript" charset="utf-8"></script>--%>
 <script src="/js/dhtmlx/dhtmlxscheduler_limit.js" type="text/javascript" charset="utf-8"></script>
-
+<script src="/js/dhtmlx/dhtmlxscheduler_recurring.js" type="text/javascript" charset="utf-8"></script>
 
 <script>
 

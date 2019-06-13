@@ -208,10 +208,14 @@
 
     var disabledDays = [0, 6];
 
+    var monday = getMonday(new Date());
+    var friday = getMonday(new Date());
+    friday.setDate(friday.getDate()+4);
     //datepicker 환경 설정
     $('.datepicker-here').datepicker({
         language: 'ko',
-        minDate: new Date(), // Now can select only dates, which goes after today
+        minDate: monday, // Now can select only dates, which goes after today
+        maxDate: friday,
         position: 'top right',
         autoClose: true,
         navTitles: {
@@ -281,9 +285,13 @@
 
     }); //DataTable
 
-    function setLectureTime() {
-
-
+    //현재 날짜 기준으로 월요일 구하기
+    function getMonday(now) {
+        var day = now.getDay() % 7;
+        if (day != 1) {
+            now.setHours(-24 * (day - 1));
+        }
+        return now;
     }
 </script>
 
