@@ -1,43 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!-- Sidebar -->
 <ul class="sidebar navbar-nav">
     <li class="nav-item active">
         <a class="nav-link" href="/">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
+            <span>시작하기</span>
         </a>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
+            <span>회원 관리</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">로그인</h6>
-            <a class="dropdown-item" href="/security/login">로그인</a>
-            <a class="dropdown-item" href="/security/signUp">회원가입</a>
-            <a class="dropdown-item" href="/forgot-password.html">Forgot Password</a>
+            <sec:authorize access="isAnonymous()">
+                <a class="dropdown-item" href="/security/login">로그인</a>
+                <a class="dropdown-item" href="/security/signUp">회원가입</a>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <a class="dropdown-item" href="/logout">로그아웃</a>
+            </sec:authorize>
+
+
         </div>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/lecture">
             <i class="fas fa-fw fa-table"></i>
-            <span>Lectures</span></a>
+            <span>강좌 목록</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/calendar/timetable">
             <i class="fas fa-fw fa-clock"></i>
-            <span>TimeTable</span></a>
+            <span>시간표 관리</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/calendar/calendartable">
             <i class="fas fa-fw fa-calendar"></i>
-            <span>Calendar</span></a>
+            <span>일정 관리</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/report">
             <i class="fas fa-fw fa-calendar"></i>
-            <span>Group</span></a>
+            <span>그룹 관리</span></a>
     </li>
 </ul>

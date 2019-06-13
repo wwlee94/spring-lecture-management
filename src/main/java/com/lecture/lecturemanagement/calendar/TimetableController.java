@@ -37,7 +37,7 @@ public class TimetableController {
 
         if (object.getClass().getName().equals("com.lecture.lecturemanagement.login.security.SecurityMember")) {
             uid = ((SecurityMember) object).getUsername();
-        } else uid = "woowon";
+        }
 
         List<TimeTable> tableList = timeTableRepository.findAllByUid(uid);
 
@@ -212,7 +212,7 @@ public class TimetableController {
 
         if (object.getClass().getName().equals("com.lecture.lecturemanagement.login.security.SecurityMember")) {
             uid = ((SecurityMember) object).getUsername();
-        } else uid = "woowon";
+        }
 
         //값 대입후 세팅
         TimeTable timeTable = new TimeTable();

@@ -61,7 +61,7 @@ public class LectureController {
 
         if (object.getClass().getName().equals("com.lecture.lecturemanagement.login.security.SecurityMember")) {
             uid = ((SecurityMember) object).getUsername();
-        } else uid = "woowon";
+        }
 
         List<TimeTable> tableList = timeTableRepository.findAllByUid(uid);
 

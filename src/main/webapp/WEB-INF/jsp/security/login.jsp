@@ -44,17 +44,9 @@ pageEncoding="UTF-8"%>
           <input type="submit" class="form-control" value="로그인"/>
         </form>
         <br>
-          <div class="form-group">
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" value="remember-me">
-                Remember Password
-              </label>
-            </div>
-          </div>
+        <hr>
         <div class="text-center">
-          <a class="d-block small mt-3" href="/security/signUp">Register an Account</a>
-          <a class="d-block small" href="/forgot-password.html">Forgot Password?</a>
+          <a class="d-block small mt-3" href="/security/signUp">회원가입</a>
         </div>
       </div>
     </div>
