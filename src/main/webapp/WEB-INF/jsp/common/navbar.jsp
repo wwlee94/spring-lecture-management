@@ -1,3 +1,7 @@
+<%@ page import="org.springframework.security.core.Authentication" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="com.lecture.lecturemanagement.member.Member" %>
+<%@ page import="com.lecture.lecturemanagement.login.security.SecurityMember" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -19,10 +23,22 @@
     <ul class="navbar-nav ml-auto ml-md-0 navbar-right">
         <li class="nav-item dropdown no-arrow mx-1">
         </li>
-        <li class="nav-item dropdown no-arrow mx-1">
+        <li class="nav-item dropdown no-arrow mx-1" style="padding: 10px;color: white;">
+            <sec:authorize access="isAnonymous()">
+                로그인 해주세요
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <%
+                    Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+                    Object principal = auth.getPrincipal();
+                    String name = ((SecurityMember)principal).getUsername();
+                %>
+                <%= name %> 님 환영합니다 !
+            </sec:authorize>
         </li>
 
         <li class="nav-item dropdown no-arrow">
+
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-user-circle fa-fw"></i>
