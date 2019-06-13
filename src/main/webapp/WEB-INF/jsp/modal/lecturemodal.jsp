@@ -16,11 +16,11 @@
     }
 
     .modal-body {
-        background-color: #FFFFF7;
+        background-color: #FFFFFF;
     }
 
     .modal-footer {
-        background-color: #FFFFF7;
+        background-color: #FFFFFF;
     }
 
     .close_x {

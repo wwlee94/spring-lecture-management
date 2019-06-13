@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="modal.jsp"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,10 +26,11 @@
 </head>
 
 <body id="page-top" onload="init();">
-
+4
 <!-- Navbar jsp  -->
 <jsp:include page="../common/navbar.jsp"/>
 
+<jsp:include page="modal.jsp"/>
 <div id="wrapper">
 
     <!-- sidebar jsp -->
