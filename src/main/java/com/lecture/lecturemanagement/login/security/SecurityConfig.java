@@ -24,7 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     {
         //인증할 것들을 풀어준다.(리소스 css, js ... ).
         web.ignoring().antMatchers("/static/**");
-        web.ignoring().antMatchers("/calendar/**");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception

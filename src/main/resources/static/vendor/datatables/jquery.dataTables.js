@@ -11466,7 +11466,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+			// "sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+			"sInfo": "_TOTAL_ 개 중 _START_ ~ _END_ 검색",
 	
 	
 			/**
@@ -11487,7 +11488,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+			// "sInfoEmpty": "Showing 0 to 0 of 0 entries",
+			"sInfoEmpty": "검색된 강의가 없습니다.",
 	
 	
 			/**
@@ -11627,8 +11629,8 @@
 			 *      } );
 			 *    } );
 			 */
-			"sLengthMenu": "Show _MENU_ entries",
-	
+			"sLengthMenu": "_MENU_ 개 씩",
+
 	
 			/**
 			 * When using Ajax sourced data and during the first draw when DataTables is
@@ -11707,7 +11709,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "Search:",
+			"sSearch": "검색 : ",
 	
 	
 			/**

@@ -1,14 +1,23 @@
 package com.lecture.lecturemanagement.calendar;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
+@Getter
+@Setter
 public class TimeTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length=50)
+    private String uid;
 
     @Column(nullable = false, length=50)
     private String subject;
@@ -25,85 +34,42 @@ public class TimeTable {
     @Column(nullable = false, length=50)
     private LocalDateTime end_date;
 
+    //시작일 str타입
     @Transient
     private String str_start_date;
 
+    //종료일 str타입
     @Transient
     private String str_end_date;
 
+    //시간표 색상 랜덤
     @Transient
     private int color;
 
+    //수업 코드 CS1108
+    @Transient
+    private String lecture_code;
 
-    public Long getId() {
-        return id;
-    }
+    //수업 시간 - 월화23,금23,24
+    @Transient
+    private String lecture_time;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    //구분 -> 전공,교필...
+    @Transient
+    private String division;
 
-    public String getSubject() {
-        return subject;
-    }
+    //성적
+    @Transient
+    private int grade;
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
 
-    public String getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(String professor) {
-        this.professor = professor;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public LocalDateTime getStart_date() {
-        return start_date;
-    }
-
-    public void setStart_date(LocalDateTime start_date) {
-        this.start_date = start_date;
-    }
-
-    public LocalDateTime getEnd_date() {
-        return end_date;
-    }
-
-    public void setEnd_date(LocalDateTime end_date) {
-        this.end_date = end_date;
-    }
-
-    public String getStr_start_date() {
-        return str_start_date;
-    }
-
-    public void setStr_start_date(String str_start_date) {
-        this.str_start_date = str_start_date;
-    }
-
-    public String getStr_end_date() {
-        return str_end_date;
-    }
-
-    public void setStr_end_date(String str_end_date) {
-        this.str_end_date = str_end_date;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
+    //기본 정보들 초기화
+    public void setUpdateTimeTable(long id, String subject, String professor, String location, String start_date, String end_date){
+        this.setId(id);
+        this.setSubject(subject);
+        this.setProfessor(professor);
+        this.setLocation(location);
+        this.setStart_date(LocalDateTime.parse(start_date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        this.setEnd_date(LocalDateTime.parse(end_date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 }
