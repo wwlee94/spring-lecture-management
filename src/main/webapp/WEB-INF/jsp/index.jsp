@@ -23,6 +23,47 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
 
+  <style type="text/css">
+    /* banner */
+    .banner {position: relative; width: 850px; height: 525px; top: 50px;  margin:0 auto; padding:0; overflow: hidden;}
+    .banner ul {position: absolute; margin: 0px; padding:0; list-style: none; }
+    .banner ul li {float: left; width: 850px; height: 525px; margin:0; padding:0;}
+
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <script language="JavaScript">
+    <!--
+    $(document).ready(function() {
+      var $banner = $(".banner").find("ul");
+
+      var $bannerWidth = $banner.children().outerWidth();//이미지의 폭
+      var $bannerHeight = $banner.children().outerHeight(); // 높이
+      var $length = $banner.children().length;//이미지의 갯수
+      var rollingId;
+
+      //정해진 초마다 함수 실행
+      rollingId = setInterval(function() { rollingStart(); }, 3000);//다음 이미지로 롤링 애니메이션 할 시간차
+
+      function rollingStart() {
+        $banner.css("width", $bannerWidth * $length + "px");
+        $banner.css("height", $bannerHeight + "px");
+        //alert(bannerHeight);
+        //배너의 좌측 위치를 옮겨 준다.
+        $banner.animate({left: - $bannerWidth + "px"}, 1500, function() { //숫자는 롤링 진행되는 시간이다.
+          //첫번째 이미지를 마지막 끝에 복사(이동이 아니라 복사)해서 추가한다.
+          $(this).append("<li>" + $(this).find("li:first").html() + "</li>");
+          //뒤로 복사된 첫번재 이미지는 필요 없으니 삭제한다.
+          $(this).find("li:first").remove();
+          //다음 움직임을 위해서 배너 좌측의 위치값을 초기화 한다.
+          $(this).css("left", 0);
+          //이 과정을 반복하면서 계속 롤링하는 배너를 만들 수 있다.
+        });
+      }
+    });
+    //-->
+  </script>
+
 </head>
 
 <body id="page-top">
@@ -37,149 +78,20 @@
 
     <div id="content-wrapper">
 
-      <div class="container-fluid">
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
-          </li>
-          <li class="breadcrumb-item active">Overview</li>
-        </ol>
 
-        <!-- Icon Cards-->
-        <div class="row">
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-primary o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-comments"></i>
-                </div>
-                <div class="mr-5">26 New Messages!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-warning o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-list"></i>
-                </div>
-                <div class="mr-5">11 New Tasks!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-success o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-shopping-cart"></i>
-                </div>
-                <div class="mr-5">123 New Orders!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-danger o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-life-ring"></i>
-                </div>
-                <div class="mr-5">13 New Tickets!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
-          </div>
+      <div class="contents">
+
+        <div class="banner">
+          <ul>
+            <li><img src="https://cdn.pixabay.com/photo/2016/02/01/16/10/eye-1173863__340.jpg" width="850" height="525"></li>
+            <li><img src="https://cdn.pixabay.com/photo/2017/12/30/13/25/portrait-3050076__340.jpg" width="850" height="525"></li>
+            <li><img src="https://cdn.pixabay.com/photo/2015/07/09/22/45/tree-838667__340.jpg" width="850" height="525"></li>
+            <li><img src="https://cdn.pixabay.com/photo/2016/03/05/20/01/art-1238602__340.jpg" width="850" height="525"></li>
+            <li><img src="https://cdn.pixabay.com/photo/2015/07/31/15/01/guitar-869217__340.jpg" width="850" height="525"></li>
+          </ul>
         </div>
+      </div
 
-        <!-- Area Chart Example-->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Area Chart Example</div>
-          <div class="card-body">
-            <canvas id="myAreaChart" width="100%" height="30"></canvas>
-          </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-        </div>
-
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            Data Table Example</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
-                  </tr>
-                </thead>
-                <%--<tfoot>--%>
-                  <%--<tr>--%>
-                    <%--<th>Name</th>--%>
-                    <%--<th>Position</th>--%>
-                    <%--<th>Office</th>--%>
-                    <%--<th>Age</th>--%>
-                    <%--<th>Start date</th>--%>
-                    <%--<th>Salary</th>--%>
-                  <%--</tr>--%>
-                <%--</tfoot>--%>
-                <tbody>
-                  <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                    <td>$320,800</td>
-                  </tr>
-                  <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>63</td>
-                    <td>2011/07/25</td>
-                    <td>$170,750</td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-        </div>
-
-      </div>
-      <!-- /.container-fluid -->
 
       <%--footer jsp--%>
       <jsp:include page="./common/footer.jsp"/>

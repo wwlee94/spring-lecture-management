@@ -114,7 +114,7 @@
                                     <div class="mr-5">제목 : ${report.name}</div>
                                     <div class="mr-5">방장 : ${report.manager}</div>
                                 </div>
-                                <a class="card-footer text-white clearfix small z-1" href="#">
+                                <a class="card-footer text-white clearfix small z-1" href="/report/room/${report.id}">
                                     <span class="float-left">Attend this Room</span>
                                     <span class="float-right">
                                 <i class="fas fa-lock-open"></i>
@@ -194,9 +194,6 @@
 <!-- Custom scripts for all pages-->
 <script src="/js/sb-admin.min.js"></script>
 
-<!-- dhtmlxscheduler js -->
-<script src="/js/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
-<script src="/js/dhtmlxscheduler_tooltip.js" type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

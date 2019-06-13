@@ -26,7 +26,7 @@
 </head>
 
 <body id="page-top" onload="init();">
-4
+
 <!-- Navbar jsp  -->
 <jsp:include page="../common/navbar.jsp"/>
 
@@ -146,9 +146,6 @@
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin.min.js"></script>
 
-    <!-- dhtmlxscheduler js -->
-    <script src="/js/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/js/dhtmlxscheduler_tooltip.js" type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>
