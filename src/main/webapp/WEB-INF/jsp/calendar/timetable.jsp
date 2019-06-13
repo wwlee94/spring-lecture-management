@@ -170,26 +170,18 @@
             scheduler.config.last_hour = 20;                        //타임 테이블 마지막 시간
             scheduler.config.hour_size_px = 52;                     //시간단위 높이 조절
             scheduler.config.limit_time_select = true;              //set in the lightbox -> 'last_hour' and 'first_hour' options limit
+            scheduler.config.mark_now = true;                       //현재시각 빨간색 라인으로 표시
 
             //?
             scheduler.config.details_on_dblclick = true;
             scheduler.config.details_on_create = true;
 
-            //버튼 위치
-            // scheduler.config.buttons_right = ["dhx_cancel_btn","dhx_save_btn"];
-            // scheduler.config.buttons_left = ["dhx_delete_btn"];
-
             //같은 timeslot에 이벤트 한개로 제한
             scheduler.config.collision_limit = 1;
 
-            //month config
-            // scheduler.config.max_month_events = 3;                  //월별 이벤트 3개로 제한
-
-            // // recurring config
-            // scheduler.config.repeat_date = "%m/%d/%Y";
-            // scheduler.config.include_end_by = true;
-            // scheduler.config.repeat_precise = true;
-
+            //버튼 위치
+            // scheduler.config.buttons_right = ["dhx_cancel_btn","dhx_save_btn"];
+            // scheduler.config.buttons_left = ["dhx_delete_btn"];
 
             //event coloring
             scheduler.templates.event_class = function (start, end, event) {
@@ -738,6 +730,7 @@
 <script src="/js/dhtmlx/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/dhtmlx/dhtmlxscheduler_tooltip.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/dhtmlx/dhtmlxscheduler_collision.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/dhtmlx/dhtmlxscheduler_limit.js" type="text/javascript" charset="utf-8"></script>
 
 <!-- timepicker -->
 <script src="/js/datepicker/bootstrap-clockpicker.min.js"></script>

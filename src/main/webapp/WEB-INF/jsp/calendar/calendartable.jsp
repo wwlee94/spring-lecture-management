@@ -134,13 +134,15 @@
             scheduler.config.xml_date = "%Y-%m-%d %H:%i";           //json으로 등록할때 xml 형식
             scheduler.config.time_step = 30;                        //lightbox 띄울때 30분 차이로
             scheduler.config.limit_time_select = true;              //set in the lightbox -> 'last_hour' and 'first_hour' options limit
+            scheduler.config.mark_now = true;                       //현재시각 빨간색 라인으로 표시
+            scheduler.config.multi_day = true;                      //서브헤더랑 content 사이에 뜨는 하루짜리 이벤트
 
             //?
             scheduler.config.details_on_dblclick = true;
             scheduler.config.details_on_create = true;
 
-            // //month config
-            scheduler.config.max_month_events = 3;                  //월별 이벤트 3개로 제한
+            // //month config ?? 되는거?
+            scheduler.config.max_month_events = 3;                  //월별 이벤트 3개로 제한 이상되면 view more 보여줌
 
             // // recurring config
             // scheduler.config.repeat_date = "%m/%d/%Y";
@@ -270,6 +272,10 @@
                 return month_string;
             };
 
+            // // view more locale
+            // scheduler.templates.month_events_link = function(date, count){
+            //     return "<a>View more("+count+" events)</a>";
+            // };
 
             //event week 내용 설정 text + location + professor
             scheduler.attachEvent("onTemplatesReady", function () {
@@ -678,6 +684,8 @@
 <script src="/js/dhtmlx/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/dhtmlx/dhtmlxscheduler_tooltip.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/dhtmlx/dhtmlxscheduler_collision.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/dhtmlx/dhtmlxscheduler_limit.js" type="text/javascript" charset="utf-8"></script>
+
 
 <script>
     <!-- 로딩 완료되면 -->
