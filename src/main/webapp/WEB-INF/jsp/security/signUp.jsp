@@ -66,7 +66,6 @@ pageEncoding="UTF-8"%>
         </form>
         <div class="text-center">
           <a class="d-block small mt-3" href="/login">Login Page</a>
-          <a class="d-block small" href="/forgot-password.html">Forgot Password?</a>
         </div>
       </div>
     </div>

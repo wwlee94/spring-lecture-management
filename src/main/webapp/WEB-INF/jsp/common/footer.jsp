@@ -4,7 +4,7 @@
 <footer class="sticky-footer">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>Copyright © Your Website 2019</span>
+            <span>빠셍 웹 페이지 | wwlee94 YeonBot 공동제작 </span>
         </div>
     </div>
 </footer>

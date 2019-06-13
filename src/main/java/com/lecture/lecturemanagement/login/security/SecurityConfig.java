@@ -30,8 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")//ADMIN 권한을 가진 사람만  "/admin/**" 으로 접근 가능.
-                .antMatchers("/report/**").hasRole("BASIC")//ADMIN 권한을 가진 사람만  "/admin/**" 으로 접근 가능.
+                .antMatchers("/report/**","/lecture/**","/calendar/**").hasRole("BASIC")//ADMIN 권한을 가진 사람만  "/admin/**" 으로 접근 가능.
                 .antMatchers("/**").permitAll()//나머지는 모드 접근 가능
                 .and()
 

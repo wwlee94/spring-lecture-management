@@ -82,6 +82,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- .jsp 파일 에서 시큐리티taglib로 사용  -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+        </dependency>
 
         <!--log4j2-->
         <dependency>
