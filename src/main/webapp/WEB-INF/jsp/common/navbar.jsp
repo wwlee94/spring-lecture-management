@@ -49,7 +49,7 @@
                     <a class="dropdown-item" href="/security/signUp">회원가입</a>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">로그아웃</a>
+                    <a class="dropdown-item" href="/logout">로그아웃</a>
                 </sec:authorize>
             </div>
         </li>

@@ -173,6 +173,8 @@
 <!-- 강좌 테이블 관련 script -->
 <script type="text/javascript" charset="utf-8">
 
+    $('#sidebar-2').addClass("active");
+
     //로딩 완료 시
     $(document).ready(function () {
         setTimeout(function () {

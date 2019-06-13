@@ -562,6 +562,9 @@
 
 
 <script>
+
+    $('#sidebar-4').addClass("active");
+
     <!-- 로딩 완료되면 -->
     $(document).ready(function(){
         setTimeout(function(){

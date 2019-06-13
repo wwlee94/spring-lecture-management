@@ -26,7 +26,7 @@
 
 </head>
 
-<body id="page-top" onload="init();">
+<body id="page-top">
 
 <!-- Navbar jsp  -->
 <jsp:include page="../common/navbar.jsp"/>
@@ -35,6 +35,7 @@
 
     <!-- sidebar jsp -->
     <jsp:include page="../common/sidebar.jsp"/>
+
     <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -195,9 +196,9 @@
 <!-- Custom scripts for all pages-->
 <script src="/js/sb-admin.min.js"></script>
 
-<!-- dhtmlxscheduler js -->
-<script src="/js/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
-<script src="/js/dhtmlxscheduler_tooltip.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $('#sidebar-5').addClass("active");
+</script>
 </body>
 
 </html>
