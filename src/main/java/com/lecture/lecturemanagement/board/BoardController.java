@@ -58,7 +58,7 @@ public class BoardController {
 
     //게시물 상세보기
     @GetMapping(value = "/report/{roomNo}/{bno}")
-    public String reportAdd(@PathVariable String roomNo, @PathVariable Long bno, Model model,Principal principal) {
+    public String reportDetailView(@PathVariable String roomNo, @PathVariable Long bno, Model model,Principal principal) {
 
         LOGGER.info("CALLED :: /report/" + roomNo + "/" + bno);
 
@@ -90,7 +90,7 @@ public class BoardController {
         boardRepository.delete(boardOptional.get());
     }
 
-    //게시물 삭제하기
+
     @PutMapping(value = "/report/{bno}")
     public void modifiedBoard(@RequestBody Map<String, Object> data,@PathVariable Long bno) {
 

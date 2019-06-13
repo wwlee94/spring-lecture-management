@@ -37,6 +37,20 @@ public class ReportController {
         List<Report> myReports = member.getReports();
         List<Report> otherReports = reportRepository.findAll();
 
+        for (Iterator<Report> iterator = otherReports.iterator(); iterator.hasNext(); ) {
+            boolean flag = false;
+            Report value = iterator.next();
+
+            for(int i = 0;i < value.getMembers().size();i++){
+                if(value.getMembers().get(i).getUemail().equals(username)) {
+                    flag = true;
+                }
+            }
+            if(flag){
+                iterator.remove();
+            }
+        }
+
         model.addAttribute("username", username);
         model.addAttribute("myReportList", myReports);
         model.addAttribute("otherReportList", otherReports);

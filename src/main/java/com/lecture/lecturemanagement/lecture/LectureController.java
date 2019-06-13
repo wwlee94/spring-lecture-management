@@ -208,7 +208,7 @@ public class LectureController {
 
             if (split_day1.length == 1) {
                 System.out.println("월목 or 월 형태");
-                //월 -> 월 or 월목-> 월 목 분해
+                //월 -> 월 or 월목-> 월 목 분해`1
                 split_day1_1 = split_day1[0].split("");
             } else if (split_day2.length != 1) {
                 System.out.println("월22,화23 형태");

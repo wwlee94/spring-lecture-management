@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="modal.jsp"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +36,6 @@
 
     <!-- sidebar jsp -->
     <jsp:include page="../common/sidebar.jsp"/>
-
     <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -116,7 +116,7 @@
                                     <div class="mr-5">제목 : ${report.name}</div>
                                     <div class="mr-5">방장 : ${report.manager}</div>
                                 </div>
-                                <a class="card-footer text-white clearfix small z-1" href="#">
+                                <a class="card-footer text-white clearfix small z-1" href="/report/room/${report.id}">
                                     <span class="float-left">Attend this Room</span>
                                     <span class="float-right">
                                 <i class="fas fa-lock-open"></i>

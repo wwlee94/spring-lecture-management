@@ -43,7 +43,7 @@
     </li>
     <li class="nav-item" id="sidebar-5">
         <a class="nav-link" href="/report">
-            <i class="fas fa-fw fa-calendar"></i>
+            <i class="fas fa-users"></i>
             <span>그룹 관리</span></a>
     </li>
 </ul>
