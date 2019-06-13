@@ -3,6 +3,8 @@ package com.lecture.lecturemanagement.login.controller;
 import com.lecture.lecturemanagement.member.Member;
 import com.lecture.lecturemanagement.member.MemberRepository;
 import com.lecture.lecturemanagement.member.MemberRole;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import java.util.Arrays;
 @RequestMapping("/member")
 public class MemberController {
 
+    private Logger LOGGER = LogManager.getLogger(this.getClass());
+
     @Autowired
     MemberRepository memberRepository;
 
@@ -24,11 +28,10 @@ public class MemberController {
     @PostMapping("")
     public String create(Member member) {
 
-        System.out.println(member.getUid());
+        LOGGER.info("CALLED /member");
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        System.out.println(member.getUpw());
         member.setUpw(passwordEncoder.encode(member.getUpw()));
-        System.out.println(member.getUpw());
 
         MemberRole role = new MemberRole();
         role.setRoleName("BASIC");

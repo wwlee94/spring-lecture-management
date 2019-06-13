@@ -1,5 +1,8 @@
 package com.lecture.lecturemanagement.login.security;
 
+import com.lecture.lecturemanagement.login.controller.LoginController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -15,13 +18,15 @@ import java.io.IOException;
  */
 public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 
+    private Logger LOGGER = LogManager.getLogger(this.getClass());
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
 
         request.setAttribute("loginid", request.getParameter("email"));
-        System.out.println(request.getParameter("email"));
-        System.out.println("login Fail !! "+exception.getLocalizedMessage());
+
+        LOGGER.error("LOGIN FAIL  :: "+request.getParameter("email"));
 
         request.getRequestDispatcher("/security/login").forward(request, response);
     }
